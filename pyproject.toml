@@ -1,0 +1,122 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# OnCall — tooling config.
+#
+# 🔴 Ye file package metadata NAHI hai. OnCall ek installable library nahi hai,
+#    ek application hai — `pip install oncall` kabhi nahi hoga. Isliye yahan
+#    `[project]` table jaan-boojh kar nahi hai, aur `[build-system]` bhi nahi.
+#    Sirf tool configuration.
+#
+#    Alternative jo reject hua: `setup.py` + `pip install -e .`. Wo ek editable
+#    install banata hai taaki `import oncall` kahin se bhi chale. Humein iski
+#    zarurat nahi kyunki har entry point repo root se chalta hai
+#    (`python -m oncall.api.main`, `pytest`), aur `pytest` ko `rootdir` mil
+#    jaata hai isi file se. Ek kam moving part.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── pytest ────────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+
+# `testpaths` batata hai ki bina argument ke `pytest` kahan dekhe. Iske bina
+# pytest poore tree mein collect karta hai — jisme `.venv/` bhi aa jaata hai
+# aur third-party test files collect hone lagti hain.
+testpaths = ["tests"]
+
+# 🔴 `pythonpath = ["."]` ye ek line hai jo `import oncall` ko kaam karati hai
+#    bina `pip install -e .` ke. pytest repo root ko `sys.path` mein daal deta
+#    hai. Ye pytest 7+ ka feature hai (`pytest==8.3.4` pinned hai).
+#    Iske bina `tests/test_broker.py` mein `from oncall.actions import broker`
+#    ModuleNotFoundError deta.
+pythonpath = ["."]
+
+# `-q` = kam output. `--strict-markers` = agar koi test `@pytest.mark.typo`
+# likhe toh error, silently ignore nahi. Ye ek real bug pakadta hai: galat
+# spelling wala marker chup-chaap kuch nahi karta.
+addopts = "-q --strict-markers --tb=short"
+
+# Custom markers. `--strict-markers` ke saath ye declare karna ZARURI hai.
+markers = [
+    "needs_docker: ye test chalne ke liye docker daemon chahiye (CI pe skip)",
+    "needs_llm: ye test asli LLM call maarta hai — token kharch hota hai",
+    "slow: 30 second wala oracle test — `-m 'not slow'` se skip karo",
+]
+
+# 🔴 asyncio_mode = "auto" ka matlab: `async def test_x()` ko `@pytest.mark.
+#    asyncio` decorator ki zarurat nahi. Kyun important hai — is project mein
+#    health oracle, load generator, aur FastAPI endpoints sab async hain, toh
+#    zyadatar tests async honge. `strict` mode mein har test pe decorator
+#    likhna padta, aur ek bhoola hua decorator test ko silently skip kar deta
+#    hai (pytest use coroutine samajh kar chhod deta hai) — jo ek jhoota
+#    green build hai.
+asyncio_mode = "auto"
+
+# 🔴 Ye line 2026-08-24 pe add hui, jab `pytest` PEHLI baar chala (pytest 8.3.4
+#    + pytest-asyncio install hone ke baad). Uske bina har run pe ye aata tha:
+#
+#      PytestDeprecationWarning: The configuration option
+#      "asyncio_default_fixture_loop_scope" is unset.
+#
+#    Matlab kya hai: ek `async` FIXTURE ko chalane ke liye event loop chahiye,
+#    aur pytest-asyncio ko decide karna padta hai ki wo loop kitni der jiye.
+#    Purana default = fixture ke caching scope ke barabar; naya default (future
+#    versions) = `function`. Yaani agar hum kuch nahi likhte, toh ek din
+#    pytest-asyncio upgrade karne pe behaviour CHUP-CHAAP badal jaayega.
+#
+#    Humne `function` chuna, teen wajah se:
+#      1. Wahi future default hai — hum aage ke saath align hain, peeche ke
+#         saath pinned nahi.
+#      2. Har test ko apna fresh loop milta hai. Is project mein oracle aur
+#         load generator background tasks banate hain; ek shared loop mein ek
+#         test ka bacha hua task agle test mein leak karta, aur neeche wala
+#         `error::ResourceWarning` GALAT test ko blame karta.
+#      3. Debugging aasan — ek failing test ka blast radius usi test tak hai.
+#
+#    ⚠️ Qeemat: har test ke liye naya loop banana thoda slow hai. 117 tests
+#    0.81 s mein chal rahe hain (✅ measured 2026-08-24), toh ye kharcha abhi
+#    dikhta hi nahi.
+asyncio_default_fixture_loop_scope = "function"
+
+# 🔴 Ye do lines ek asli bug ko error banati hain. Warning se test fail hoga.
+#    Kyun: is project mein `httpx`, `psycopg`, aur `docker` teeno resources
+#    kholte hain. Ek bhoola hua `await client.aclose()` ek
+#    ResourceWarning deta hai, warna chup-chaap 30-second oracle test ke
+#    andar file descriptor leak hota rehta hai.
+filterwarnings = [
+    "error::ResourceWarning",
+    # `docker==7.1.0` ka SDK abhi purane `datetime.utcnow()` use karta hai,
+    # jo 3.12+ pe DeprecationWarning deta hai. Ye humari galti nahi hai aur
+    # hum ise theek nahi kar sakte — isliye specifically ignore, blanket nahi.
+    "ignore:datetime.datetime.utcnow:DeprecationWarning:docker",
+]
+
+
+# ── ruff (linter + formatter, black ka replacement) ───────────────────────────
+#
+# Kyun ruff aur black+flake8+isort nahi:
+#   Teen tools ki jagah ek. Ruff Rust mein likha hai, poore repo pe ~50 ms
+#   leta hai, aur `ruff format` black-compatible output deta hai. Teen tools
+#   ka matlab teen config files aur teen versions jo aapas mein lad sakte hain.
+#
+# ⚠️ Ruff `requirements.txt` mein pinned NAHI hai — wo runtime dependency nahi
+#    hai. `pip install ruff` alag se, ya `make fmt` ke bina bhi project chalta
+#    hai. Ye config tab ke liye hai jab install ho.
+[tool.ruff]
+line-length = 100  # 88 (black default) se thoda zyada — Hinglish comments lambe hote hain
+target-version = "py311"  # 🔴 D23 — 3.11, 3.14 nahi
+exclude = [".venv", "migrations", "__pycache__"]
+
+[tool.ruff.lint]
+# E,F = pyflakes + pycodestyle ke errors (asli bugs: unused import, undefined name)
+# I   = isort (import order)
+# B   = flake8-bugbear (mutable default argument jaisi asli traps)
+# UP  = pyupgrade (purane Python idioms)
+select = ["E", "F", "I", "B", "UP"]
+
+# E501 (line too long) off hai kyunki `line-length` formatter handle karta hai,
+# aur lambe URLs / Hinglish comments pe ye sirf shor karta hai.
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# `__init__.py` mein re-export karna normal hai — "imported but unused" nahi.
+"__init__.py" = ["F401"]
+# Tests mein assert-heavy code aur fixture shadowing normal hai.
+"tests/*" = ["B011"]

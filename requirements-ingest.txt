@@ -1,0 +1,29 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# OnCall — embedding dependencies. DELIBERATELY A SEPARATE FILE.
+#
+# Kyun alag file:
+#   `sentence-transformers` PyTorch kheench laata hai. PyTorch ka import alone
+#   ⚠️ ~250–400 MB resident leta hai, plus model ~90 MB. Ek 8 GB machine pe wo
+#   ek always-on worker mein afford nahi hota (RISKS.md R3).
+#
+#   Isliye do venv nahi — ek venv, do requirement files. Ye file sirf tab
+#   install hoti hai jab embeddings chahiye:
+#     * ingest (`scripts/ingest_runbooks.py`) — ek baar, Phase 6
+#     * query embedding service (`oncall/retrieval/embed_service.py`) — jab
+#       RAG arm chal raha ho
+#
+#   `rag_enabled=false` ablation arm mein embed service start hi nahi hoti,
+#   toh wo 450 MB genuinely kharch nahi hota. Ablation resource-level pe bhi
+#   asli hai, sirf logic-level pe nahi.
+#
+# Install (alag se, jab zarurat ho):
+#   pip install -r requirements-ingest.txt
+#
+# ⚠️ Ye ~2.5 GB download hai (torch wheels). 14 GB free disk pe ye ek soch-kar
+#    liya gaya kharcha hai — `df -h /` pehle chala lena.
+# ─────────────────────────────────────────────────────────────────────────────
+
+-r requirements.txt
+
+# all-MiniLM-L6-v2 (~90 MB, 384 dimensions) chalane ke liye. Aur kuch nahi.
+sentence-transformers==3.3.1

@@ -1,0 +1,59 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# OnCall — runtime dependencies
+#
+# 🔴 Python 3.11 ONLY. `python3` is 3.14 on this machine and will NOT work
+#    (DECISIONS.md D23). Create the venv like this:
+#
+#      /opt/homebrew/bin/python3.11 -m venv .venv
+#      source .venv/bin/activate
+#      pip install -r requirements.txt
+#
+# 🔴 PyTorch / sentence-transformers are DELIBERATELY NOT HERE.
+#    They live in requirements-ingest.txt so the always-on worker never pays
+#    their ~450 MB resident cost. See RISKS.md R3.
+#
+# Every version is pinned with `==`. All 15 pins resolved successfully on the
+# first `pip install` (2026-08-24) — 44 packages landed in total, because
+# transitive deps are not pinned here (numpy, 36 MB, arrived via pgvector).
+# See docs/STACK.md 1a for the measured numbers.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Web layer: control-plane API + the SSE stream ──
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+
+# ── Validation: the FIRST gate that LLM JSON has to pass ──
+pydantic==2.10.4
+pydantic-settings==2.7.0
+
+# ── Postgres driver. One driver, sync AND async — see STACK.md §2 ──
+psycopg[binary]==3.2.3
+psycopg-pool==3.2.4
+
+# pgvector's Python adapter: registers the `vector` type with psycopg so a
+# Python list round-trips as a Postgres vector. Phase 6.
+pgvector==0.3.6
+
+# ── Redis client: shopcache health check + F5 fault ──
+redis==5.2.1
+
+# ── Docker SDK: the ONLY way this project touches containers.
+#    No shell, ever (CLAUDE.md §3). Structured kwargs only.
+docker==7.1.0
+
+# ── HTTP client: the health oracle's probe + the load generator ──
+httpx==0.28.1
+
+# ── Config from .env ──
+python-dotenv==1.0.1
+
+# ── LLM provider (Phase 5). Groq free tier: 200K tokens/day, 8K TPM ──
+groq==0.13.1
+
+# ── Synthetic data for shopdb's orders table. Disposable by design (DATA.md A6).
+#    ~2 MB, so it stays in the main file — unlike torch.
+faker==33.1.0
+
+# ── Tests ──
+pytest==8.3.4
+pytest-asyncio==0.25.0

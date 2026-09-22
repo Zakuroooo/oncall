@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────────────────────
+# PRIVATE STUDY DOCS — never commit these.
+# The entire docs/ tree is Pranay's personal interview-prep and
+# learning material. It contains reasoning, Hinglish explanations,
+# and a question bank. It is NOT project documentation for the
+# public repo. Public-facing docs live in README.md only.
+# ─────────────────────────────────────────────────────────────
+docs/
+AGENTS.md
+CLAUDE.md
+.claude/
+
+# ── Secrets ──
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+**/credentials.json
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ── Node / the web tier ──
+node_modules/
+web/node_modules/
+web/.next/
+web/out/
+web/next-env.d.ts
+web/.env.local
+dist/
+build/
+.next/
+*.tsbuildinfo
+npm-debug.log*
+pnpm-debug.log*
+
+# ── Local data, indexes, corpora (256 GB SSD — keep it out of git) ──
+data/
+corpus/
+*.sqlite
+*.sqlite3
+*.db
+embeddings/
+.chroma/
+*.faiss
+
+# ── Eval + trace artefacts ──
+runs/
+traces/
+eval_results/
+*.jsonl.gz
+
+# ── macOS ──
+.DS_Store
+.AppleDouble
+._*
+
+# ── Editors ──
+.idea/
+.vscode/
+*.swp
