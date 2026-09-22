@@ -1,0 +1,313 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# OnCall — monitored stack + control plane ka database. 4 containers.
+#
+# 🔴 Sabse important cheez is file mein — jo yahan NAHI hai:
+#
+#       restart: always
+#
+#    Docker khud ek self-healing system hai. Agar `restart: always` hota, toh
+#    F1 fault (container kill) inject karne ke ~1 second baad DOCKER hi use
+#    dobara chalu kar deta — OnCall ko incident dikhta hi nahi, aur agar dikhta
+#    bhi toh wo apne aap theek ho jaata. Poora project ek illusion ban jaata:
+#    "mera agent 100% faults fix karta hai" jabki asli mein Docker kar raha hai.
+#
+#    Isliye har service `restart: "no"` hai. Toota hua container TOOTA HUA
+#    REHTA hai jab tak OnCall use theek na kare. Wahi poori baat hai.
+#
+#    ⚠️ Ek exception: `oncall-db` ko bhi `restart: "no"` rakha hai. Wo chaos ka
+#    target nahi hai, toh `unless-stopped` safe hota — lekin ek hi policy yaad
+#    rakhna aasan hai, aur galti se oncall-db pe fault inject ho jaaye toh
+#    evidence phir bhi bachi rehni chahiye (ye khud ek observation hai).
+#
+# 🔴 Doosri important cheez: HAR port `127.0.0.1:` se bandha hai.
+#    `"5432:5432"` likhne ka matlab hai `0.0.0.0:5432` — poore local network pe
+#    ek password-wala Postgres khula. College WiFi pe wo ek asli exposure hai.
+#    `"127.0.0.1:5432:5432"` ka matlab sirf is machine se pahuncha ja sakta hai.
+#    (THREAT_MODEL.md §3)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 🔴 `version:` key jaan-boojh kar nahi hai. Compose v2 usko ignore karta hai
+#    aur `version is obsolete` warning deta hai. Ek warning jo har `make up` pe
+#    aaye, wo logs padhna band karwa deti hai.
+
+name: oncall
+
+services:
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 1. shopdb — monitored stack ka Postgres. F3 aur F4 ka target.
+  #    (F2 = disk full, aur wo shopapp ke tmpfs pe hota hai, yahan nahi.)
+  # ═══════════════════════════════════════════════════════════════════════════
+  shopdb:
+    image: postgres:15-alpine
+    container_name: oncall-shopdb
+    restart: "no"          # 🔴 upar wala comment padho
+
+    environment:
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
+      POSTGRES_DB: shop
+      # 🔒 `trust` auth NAHI. Password chhota hai (`shop`) kyunki ye loopback-only
+      #    disposable fixture hai, lekin auth ON hai — kyunki `trust` ke saath
+      #    ek galti se bandha hua port turant remote root-on-database ban jaata.
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+
+    ports:
+      - "127.0.0.1:5432:5432"
+
+    volumes:
+      # `:ro` — init script ko container ke andar se badla nahi ja sakta.
+      - ./stack/shopdb/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - shopdb_data:/var/lib/postgresql/data
+
+    # 🔴 Ye do lines F4 fault ko possible banati hain.
+    #
+    #    Postgres ka `max_connections` ek `ALTER SYSTEM` setting hai jise badalne
+    #    ke baad RESTART chahiye. Chaos script use **5** pe le jaati hai, phir
+    #    container restart karti hai. Fix = wapas 100 + restart.
+    #
+    #    🔴 5 kyun, 1 ya 2 nahi (jo "zyada toota hua" lagta hai)? Kyunki PG15 ka
+    #       `superuser_reserved_connections` default **3** hai, aur manual bolti
+    #       hai: *"The value must be less than max_connections."* `max_connections=2`
+    #       pe Postgres START HI NAHI hota — aur tab F4 "database down" ban jaata,
+    #       "pool exhausted" nahi. Galat fault, galat diagnosis, bekaar measurement.
+    #       ✅ postgresql.org/docs/15/runtime-config-connection.html (2026-08-22)
+    #
+    #    5 pe shopdb theek chalta hai aur ek AKELA /health probe pass hota hai
+    #    (pool ko sirf 1 connection chahiye) — lekin 20 rps pe pool 10 tak jaana
+    #    chahta hai aur 6th connection pe `FATAL: sorry, too many clients already`
+    #    milta hai. Wahi naive-vs-sustained disagreement project ka result hai.
+    #
+    #    Yahan `-c max_connections=100` explicit likha hai (default bhi 100 hai)
+    #    ek wajah se: ye batata hai ki ye number is experiment ka ek KNOB hai.
+    #    Ek reader jo ye file padhta hai, use dikhna chahiye ki connections is
+    #    project mein matter karte hain.
+    #    Yahan `-c max_connections=100` PEHLE likha tha ("knob dikhane ke liye")
+    #    — wo line 🔥 F4 KO MAR DETI THI, 2026-08-24 pe measured hua:
+    #    Postgres precedence = command-line args > postgresql.auto.conf >
+    #    postgresql.conf. `-c max_connections=100` dete hi `ALTER SYSTEM SET
+    #    max_connections = 5` HAMESHA ignore hota tha — restart ke baad bhi
+    #    SHOW 100 bolti thi, fault inject hi nahi hota tha, aur oracle-test
+    #    ne yahi pakda (600x200, zero failures). Ilaaj: CLI se hatao —
+    #    postgres image ka default waise bhi 100 hai, ab ALTER SYSTEM raaj
+    #    karta hai (jaisa F4 ka poora design maangta hai).
+    command:
+      - postgres
+      - -c
+      # Logs OnCall ka input hain. `all` statements log karna zyada hai, lekin
+      # ERROR/FATAL zaruri hai — aur wahi default hai. `log_min_messages` ko
+      # explicit rakhna isliye ki koi ise galti se badal na de.
+      - log_min_messages=warning
+
+    healthcheck:
+      # `pg_isready` Postgres ka apna tool hai — TCP connect + ek protocol-level
+      # handshake. `nc -z` se behtar kyunki wo sirf port khula hai ya nahi
+      # dekhta, jabki Postgres port kholne ke baad bhi recovery mode mein ho
+      # sakta hai.
+      test: ["CMD-SHELL", "pg_isready -U shop -d shop"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+    # 🔴 R3 (8 GB RAM) ka enforcement. Ye limit ek guess nahi, ek TRIPWIRE hai:
+    #    agar Postgres 256 MB mein na chale, container OOM-kill hoga aur humein
+    #    turant pata chalega — na ki tab jab poori machine swap karne lage.
+    #    ⚠️ 256 MB ek estimate hai; `make stats` Phase 1 mein isko measure karega.
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 2. shopcache — Redis. F5 fault ka target.
+  # ═══════════════════════════════════════════════════════════════════════════
+  shopcache:
+    image: redis:7-alpine
+    container_name: oncall-shopcache
+    restart: "no"
+
+    ports:
+      - "127.0.0.1:6379:6379"
+
+    # `--save ""` = disk pe snapshot mat likho.
+    # Kyun: ye cache hai, database nahi. Persistence ka matlab hota ki F5 fault
+    # (cache flush/kill) ke baad data wapas aa jaata — aur fault ka asar hi
+    # gayab ho jaata. Ek cache jo restart pe apna data yaad rakhe, wo is
+    # experiment ke liye jhooth bolti hai.
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+    deploy:
+      resources:
+        limits:
+          memory: 96M
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 3. shopapp — monitored service. F1 aur F2 ka target, aur /health ka ghar.
+  # ═══════════════════════════════════════════════════════════════════════════
+  shopapp:
+    build:
+      context: ./stack/shopapp
+      dockerfile: Dockerfile
+    image: oncall-shopapp:local     # 🔴 tag fix — `latest` nahi, taaki purana image galti se na chale
+    container_name: oncall-shopapp
+    restart: "no"
+
+    environment:
+      # Container ke andar service names DNS se resolve hote hain — `shopdb`,
+      # `shopcache`. Ye Docker ka embedded DNS hai. 127.0.0.1 yahan galat hoga:
+      # container ke andar 127.0.0.1 ka matlab KHUD container hai.
+      DATABASE_URL: postgresql://shop:shop@shopdb:5432/shop
+      REDIS_URL: redis://shopcache:6379/0
+      # 🔥 F4 ka load-math (2026-08-24, measured — app.py ke header ka poora
+      #    tark): 20 rps x 0.40 s = 8 connections ki demand. Healthy cap 100
+      #    pe ye POOL_MAX(10) ke andar (80% util); F4 cap 5 pe 160% overload ->
+      #    30s window mein waits deterministically 3s-timeout cross karte hain.
+      #    ⚠️ 0.30 pe margin patla tha — probes borderline bach jaate the (measured).
+      ORDER_SLEEP_S: "0.40"
+
+    ports:
+      # 🔴 Host pe 8001, container ke andar 8000. Kyun different: host ka 8000
+      #    OnCall ke control plane ke liye reserved hai (oncall/config.py
+      #    LISTEN_PORT = 8000). Do services ek port pe nahi baith sakti.
+      - "127.0.0.1:8001:8000"
+
+    # ═════════════════════════════════════════════════════════════════════════
+    # 🔥 F2 (disk full) ka poora mechanism yahi 5 lines hain.
+    # ═════════════════════════════════════════════════════════════════════════
+    #
+    # 🔴 `size` OPTIONAL nahi hai — ye is project mein sabse zaroori knob hai.
+    #    tmpfs RAM-backed hai. Bina cap, chaos ka `dd` is Mac ki 8 GB RAM khaani
+    #    shuru kar deta aur laptop swap mein chala jaata. 16 MiB pe `dd` ~1
+    #    second mein ENOSPC deta hai aur RAM ko chhoota bhi nahi.
+    #
+    # 🔴 tmpfs kyun, ek normal directory kyun nahi? Kyunki ek normal directory
+    #    Docker VM ke filesystem pe hoti hai, jahan gigabytes free hain. Usko
+    #    bharne ke liye chaos ko literally 50+ GB likhna padta — aur tab tak
+    #    /health ka write pass hota rehta. Yaani F2 inject ho jaata lekin
+    #    DETECT nahi hota. Ek chhota, capped filesystem chahiye taaki "full"
+    #    ka matlab kuch ho.
+    #
+    # 🔴 `mode` OPTIONAL NAHI hai — ye 2026-08-24 pe MEASURED ho kar saabit
+    #    hua. Pehle yahan likha tha ki "Docker ka documented default hi 1777
+    #    hai, explicit line YAML-octal jhagda kholti hai". Wo daava GALAT tha:
+    #    bina mode ke daemon ne tmpfs ko `drwxr-xr-x root:root` (755) mount ki
+    #    (`docker inspect` ne Mode:"" diya), app uid 10001 pe hai, toh pehli
+    #    hi probe write EACCES[errno=13] deti — /health permanently unhealthy.
+    #    Ye exactly wo falsifier tha jo neeche wala comment predict karta tha;
+    #    tripwire fire hua, ab fix permanent hai.
+    #
+    # 🔴 Value 1023 hai, 1777 NAHI — aur ye DO measured failures ke baad aaya:
+    #    (a) quoted "1777" -> compose reject ("expected type 'uint32'");
+    #    (b) plain 1777 -> daemon ne use RAW BITS samjha (= octal 3441) aur
+    #        mount hua `d-wxrwS--t` — ab bhi EACCES.
+    #    Wajah: Engine API ka TmpfsOptions.Mode FileMode hai — OCTAL-STRING
+    #    nahi, seedha permission BITS. rwxrwxrwt (octal 1777) = decimal 1023.
+    #    ✅ live verify 2026-08-24: ls -ldn /tmp/shopapp-cache -> drwxrwxrwt
+    volumes:
+      - type: tmpfs
+        target: /tmp/shopapp-cache        # = app.py ka CACHE_DIR
+        tmpfs:
+          size: 16777216                  # 16 MiB, bytes mein
+          mode: 1023                      # = octal 1777 (rwxrwxrwt + sticky)
+
+    depends_on:
+      # 🔴 `condition: service_healthy` — sirf `depends_on: [shopdb]` likhne se
+      #    Docker container START hone ka intezaar karta hai, READY hone ka
+      #    nahi. Postgres ko ready hone mein ~3-8 second lagte hain. Uske bina
+      #    shopapp start hoke turant connection error deta, /health 503 deta,
+      #    aur `make up` ke baad pehla check hamesha fail dikhta — ek jhoota
+      #    "sab toota hua hai" jo asli faults se confuse hota.
+      shopdb:
+        condition: service_healthy
+      shopcache:
+        condition: service_healthy
+
+    healthcheck:
+      # ⚠️ Ye healthcheck OnCall ke oracle se ALAG hai aur usse KAMZOR hai —
+      #    jaan-boojh kar. Ye ek probe hai, bina load. Matlab: ye Docker
+      #    healthcheck F4 pe "healthy" dikhayega jabki OnCall ka oracle
+      #    "unhealthy" kahega. Wo farq bug nahi, wo project ka RESULT hai —
+      #    aur ye line uska live demo hai (`docker ps` healthy dikhayega,
+      #    OnCall broken).
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=3).status==200 else 1)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # 4. oncall-db — control plane ka Postgres + pgvector. Chaos ka target NAHI.
+  # ═══════════════════════════════════════════════════════════════════════════
+  oncall-db:
+    # 🔴 `pgvector/pgvector:pg16`, plain `postgres:16` nahi. pgvector ek
+    #    C extension hai — usko compile karke install karna padta hai. Ye
+    #    official pgvector image wo kaam pehle se kiya hua deti hai.
+    #    Alternative: `postgres:16` + Dockerfile mein `make install` — ~3 min
+    #    build, gcc chahiye, aur ARM pe kabhi-kabhi tootta hai. Bekaar mehnat.
+    #
+    # ⚠️ `linux/arm64` tag available hona chahiye (M2 Mac). Ye D22 ka
+    #    falsifier #2 hai — agar `docker compose up` "no matching manifest"
+    #    de, toh yahi hua hai.
+    image: pgvector/pgvector:pg16
+    container_name: oncall-db
+    restart: "no"
+
+    environment:
+      POSTGRES_USER: oncall
+      POSTGRES_PASSWORD: oncall
+      POSTGRES_DB: oncall
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+
+    ports:
+      # 🔴 Host pe 5433 — shopdb already 5432 le raha hai. Ye do alag databases
+      #    hain (D9) aur unke port bhi alag hone chahiye, warna `psql` ka ek
+      #    galat command control plane pe chal jaata hai.
+      - "127.0.0.1:5433:5432"
+
+    volumes:
+      - ./stack/oncalldb/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - oncalldb_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oncall -d oncall"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Volumes — named, bind mounts nahi.
+#
+# Kyun named volumes: bind mount (`./data:/var/lib/postgresql/data`) macOS pe
+# gRPC-FUSE ke through jaata hai aur Postgres ke random writes pe wo ⚠️ kaafi
+# dhima hai. Named volume Linux VM ke andar rehta hai — native speed.
+#
+# Iski keemat: data `docker volume` ke andar hai, `ls` se nahi dikhta.
+# `make nuke` (= `down -v`) hi use hataata hai. Ye theek hai — dono databases
+# disposable hain (DATA.md A6).
+# ─────────────────────────────────────────────────────────────────────────────
+volumes:
+  shopdb_data:
+  oncalldb_data:
+
+# 🔴 Koi custom network define nahi ki gayi. Compose ek default bridge network
+#    (`oncall_default`) khud banata hai jisme chaaron containers service-name
+#    se ek doosre ko dhoondh lete hain. Ek custom network sirf tab chahiye jab
+#    isolation groups banane hon — yahan chaaron ko ek doosre se baat karni hai.
