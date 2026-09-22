@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnCall — incident console</title>
+  <meta name="description" content="Self-healing infrastructure agent. The model proposes; the oracle decides." />
+  <!-- Inline SVG favicon: no extra request, no 404 on every page load (F-17). -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0e14'/%3E%3Cpath d='M6 17h5l3-7 4 14 3-7h5' fill='none' stroke='%234dd4c0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<!-- ═══ APP SHELL ═══════════════════════════════════════════════════════ -->
+<div class="shell">
+
+  <!-- ── Left rail ──────────────────────────────────────────────────── -->
+  <aside class="rail">
+    <div class="rail-brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="var(--surface-2)"/>
+        <path d="M6 17h5l3-7 4 14 3-7h5" fill="none" stroke="var(--accent)"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="rail-name">OnCall</div>
+        <div class="rail-sub">incident console</div>
+      </div>
+    </div>
+
+    <nav class="rail-nav" aria-label="Main">
+      <button class="nav-item is-active" data-view="overview" aria-current="page">
+        <span class="nav-ico" aria-hidden="true">◈</span> Overview
+      </button>
+      <button class="nav-item" data-view="incidents">
+        <span class="nav-ico" aria-hidden="true">≡</span> Incidents
+        <span class="nav-count" id="nav-open-count" hidden></span>
+      </button>
+      <button class="nav-item" data-view="evidence">
+        <span class="nav-ico" aria-hidden="true">▤</span> Evidence
+      </button>
+      <button class="nav-item" data-view="chaos">
+        <span class="nav-ico" aria-hidden="true">⚡</span> Chaos lab
+      </button>
+    </nav>
+
+    <div class="rail-foot">
+      <div class="rail-thesis">
+        <div class="rail-thesis-k">Verdict contract</div>
+        <div class="rail-thesis-v">3 probes · 30s · 20 rps</div>
+        <div class="rail-thesis-n">zero tokens · zero LLM</div>
+      </div>
+      <div class="conn" id="conn">
+        <span class="conn-dot" aria-hidden="true"></span>
+        <span class="conn-label" id="conn-label">connecting…</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main column ────────────────────────────────────────────────── -->
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumbs" id="crumbs">Overview</div>
+      <div class="topbar-actions">
+        <span class="clock" id="clock" aria-hidden="true"></span>
+        <button class="btn btn-ghost" id="btn-refresh" title="Refresh now">↻ Refresh</button>
+      </div>
+    </header>
+
+    <!-- Global error banner. Lives OUTSIDE any panel so an API outage never
+         gets mistaken for a failure of whatever panel you were looking at. -->
+    <div class="banner" id="banner" role="alert" hidden>
+      <span class="banner-ico" aria-hidden="true">⚠</span>
+      <span id="banner-text"></span>
+      <button class="banner-x" id="banner-x" aria-label="Dismiss">✕</button>
+    </div>
+
+    <!-- ══ VIEW: OVERVIEW ═════════════════════════════════════════════ -->
+    <main class="view" id="view-overview">
+
+      <section class="hero">
+        <div class="hero-head">
+          <h1>Is the fix real?</h1>
+          <p>Every verdict on this screen was produced by a health probe that ran against the
+             live service under load — never by a model's opinion.</p>
+        </div>
+        <div class="hero-stats" id="hero-stats"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Live topology</h2>
+          <span class="panel-note">shopapp is probed deeply (db · cache · disk); the rest report container state</span>
+        </div>
+        <div class="topo" id="topo"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Active incidents</h2>
+          <button class="btn btn-quiet" data-view="incidents">View all →</button>
+        </div>
+        <div id="active-incidents"></div>
+      </section>
+    </main>
+
+    <!-- ══ VIEW: INCIDENTS ════════════════════════════════════════════ -->
+    <main class="view" id="view-incidents" hidden>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Incidents</h2>
+          <div class="filters" role="group" aria-label="Filter incidents">
+            <button class="chip is-active" data-filter="all">All</button>
+            <button class="chip" data-filter="open">Open</button>
+            <button class="chip" data-filter="recovered">Recovered</button>
+            <button class="chip" data-filter="escalated">Escalated</button>
+          </div>
+        </div>
+        <div id="incidents-list"></div>
+      </div>
+    </main>
+
+    <!-- ══ VIEW: INCIDENT DETAIL ══════════════════════════════════════ -->
+    <main class="view" id="view-detail" hidden>
+      <button class="btn btn-ghost back" id="btn-back">← All incidents</button>
+
+      <section class="det-head">
+        <div>
+          <h1 id="det-title">Incident</h1>
+          <div class="det-meta" id="det-meta"></div>
+        </div>
+        <div id="det-badge"></div>
+      </section>
+
+      <!-- The state machine, drawn. This is the app's actual spine, so it gets
+           to be a first-class visual rather than a word in a table cell. -->
+      <section class="panel">
+        <div class="panel-head"><h2>Pipeline</h2>
+          <span class="panel-note" id="stepper-note"></span></div>
+        <ol class="stepper" id="stepper" aria-label="Incident pipeline"></ol>
+      </section>
+
+      <!-- Approval gate -->
+      <section class="approval" id="approval" hidden aria-labelledby="approval-h">
+        <div class="approval-head">
+          <span class="pulse" aria-hidden="true"></span>
+          <h2 id="approval-h">Waiting on you</h2>
+          <span class="approval-sub">The agent will not touch anything until you decide.</span>
+        </div>
+        <div id="approval-body"></div>
+        <div class="warn" id="injection-warning" hidden>
+          <strong>⚠ Possible prompt injection in the collected logs.</strong>
+          The highlighted lines below contain text that reads like an instruction. The logs are
+          data, not orders — read them before you approve.
+        </div>
+        <div class="approval-actions">
+          <button class="btn btn-approve" id="btn-approve">✓ Approve &amp; execute</button>
+          <button class="btn btn-reject" id="btn-reject">✕ Reject</button>
+          <span class="approval-msg" id="approval-msg" role="status"></span>
+        </div>
+        <!-- Inline reject form. Replaces window.prompt(): this text is N5
+             measurement data, and a blocking browser dialog is untestable. -->
+        <form class="reject-form" id="reject-form" hidden>
+          <label for="reject-reason">Why are you rejecting? <span class="muted">(stored as N5 data)</span></label>
+          <textarea id="reject-reason" rows="2" placeholder="e.g. wrong target — shopapp is the symptom, not the cause"></textarea>
+          <div class="row">
+            <button class="btn btn-reject" type="submit">Confirm rejection</button>
+            <button class="btn btn-ghost" type="button" id="btn-reject-cancel">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Verdict — the headline. Naive vs sustained, side by side. -->
+      <section class="panel" id="verdict-panel" hidden>
+        <div class="panel-head"><h2>Oracle verdict</h2>
+          <span class="panel-note">the only writer of truth in this system</span></div>
+        <div id="verdicts"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>Timeline</h2>
+          <span class="panel-note" id="timeline-note"></span></div>
+        <ol class="timeline" id="timeline" aria-live="polite" aria-relevant="additions"></ol>
+      </section>
+    </main>
+
+    <!-- ══ VIEW: EVIDENCE (stats) ═════════════════════════════════════ -->
+    <main class="view" id="view-evidence" hidden>
+      <section class="hero hero-slim">
+        <div class="hero-head">
+          <h1>Evidence</h1>
+          <p>Per fault class only. There is no aggregate auto-fix row on this page, and that is
+             deliberate — an average over five unequal fault classes is a number you can tune by
+             changing the test mix.</p>
+        </div>
+      </section>
+      <div id="evidence-body"></div>
+    </main>
+
+    <!-- ══ VIEW: CHAOS LAB ════════════════════════════════════════════ -->
+    <main class="view" id="view-chaos" hidden>
+      <section class="hero hero-slim">
+        <div class="hero-head">
+          <h1>Chaos lab</h1>
+          <p>The corpus generator, not part of a real deployment. Each button breaks the victim
+             stack in a specific, reversible way and opens an incident.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-ghost" id="btn-heal-all">♻ Heal all — reset the world</button>
+        </div>
+      </section>
+      <div class="fault-grid" id="faults"></div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Confirm dialog for destructive actions (F-09). One dialog, reused. -->
+<div class="modal-backdrop" id="confirm" hidden>
+  <div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+    <h3 id="confirm-title"></h3>
+    <p id="confirm-body"></p>
+    <div class="row row-end">
+      <button class="btn btn-ghost" id="confirm-no">Cancel</button>
+      <button class="btn btn-danger" id="confirm-yes">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

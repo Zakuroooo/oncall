@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OnCall design system.
+
+   One dark theme, committed to deliberately: this is an operations console
+   and a product site for one, and a console that changes colour with the OS
+   is a console whose severity colours cannot be trusted. Red must be red.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  --color-ink-950: #07090e;
+  --color-ink-900: #0a0d13;
+  --color-ink-850: #0e121a;
+  --color-ink-800: #11151e;
+  --color-ink-700: #171c27;
+  --color-ink-600: #1e2431;
+  --color-ink-500: #242c3b;
+  --color-ink-400: #33405a;
+
+  --color-mist-100: #e6eaf2;
+  --color-mist-300: #9aa5b8;
+  --color-mist-500: #6b7688;
+
+  --color-signal-teal:   #4dd4c0;
+  --color-signal-green:  #46d97e;
+  --color-signal-blue:   #5aa2ff;
+  --color-signal-amber:  #f2a93b;
+  --color-signal-red:    #ff5f5f;
+  --color-signal-violet: #a98bff;
+
+  --font-sans: var(--font-sans-stack);
+  --font-mono: var(--font-mono-stack);
+}
+
+:root {
+  --font-sans-stack: ui-sans-serif, -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
+  --font-mono-stack: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--color-ink-900);
+  color: var(--color-mist-100);
+  font-family: var(--font-sans-stack);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Focus is never removed. A console that can only be driven by mouse is a
+   console half its users cannot drive. */
+:focus-visible {
+  outline: 2px solid var(--color-signal-teal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Reusable pieces ───────────────────────────────────────────────────── */
+
+@utility panel {
+  background: var(--color-ink-800);
+  border: 1px solid var(--color-ink-500);
+  border-radius: 12px;
+}
+
+/* The ambient glow behind the hero. Pure CSS — no image to download, and it
+   scales to any viewport without going soft. */
+@utility aurora {
+  background:
+    radial-gradient(60rem 30rem at 15% -10%, rgba(77, 212, 192, .13), transparent 60%),
+    radial-gradient(50rem 26rem at 85% 0%, rgba(90, 162, 255, .11), transparent 60%),
+    radial-gradient(40rem 24rem at 50% 40%, rgba(169, 139, 255, .06), transparent 65%);
+}
+
+/* Hairline grid, for the hero and section breaks. */
+@utility gridlines {
+  background-image:
+    linear-gradient(rgba(51, 64, 90, .16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51, 64, 90, .16) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(70% 55% at 50% 30%, #000 20%, transparent 100%);
+}
+
+@keyframes throb { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+@utility throb { animation: throb 1.8s ease-in-out infinite; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@utility rise { animation: rise .5s ease-out both; }
+
+/* Scrollbars that match the surface instead of punching a light hole in it. */
+* { scrollbar-width: thin; scrollbar-color: var(--color-ink-500) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: var(--color-ink-500); border-radius: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
