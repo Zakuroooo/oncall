@@ -1,3 +1,4 @@
+import { REPLAY } from "@/lib/replay";
 import { NextResponse } from "next/server";
 import { destroySession } from "@/lib/auth";
 
@@ -10,6 +11,7 @@ import { destroySession } from "@/lib/auth";
  *    fix costs nothing.
  */
 export async function POST() {
+  if (REPLAY) return new Response("Accounts are disabled on the public replay.", { status: 404 });
   await destroySession();
   return NextResponse.json({ ok: true });
 }

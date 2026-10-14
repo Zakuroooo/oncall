@@ -65,16 +65,18 @@ export function DashboardShell({
           <div className="mt-3 border-t border-ink-500 pt-3">
             <div className="truncate text-[12.5px] font-medium">{user.displayName || user.email}</div>
             <div className="truncate text-[11px] text-mist-500">{user.email} · {user.role}</div>
-            <button onClick={logout} className="mt-2 text-[12px] text-mist-500 hover:text-signal-red">
-              Sign out
-            </button>
+            {user.id !== 0 && (
+              <button onClick={logout} className="mt-2 text-[12px] text-mist-500 hover:text-signal-red">
+                Sign out
+              </button>
+            )}
           </div>
         </div>
 
         {/* Compact identity strip for narrow screens, where the rail is a bar. */}
         <div className="ml-auto flex items-center gap-3 lg:hidden">
           <span className="truncate text-[12px] text-mist-500">{user.email}</span>
-          <button onClick={logout} className="text-[12px] text-mist-500 hover:text-signal-red">Sign out</button>
+          {user.id !== 0 && <button onClick={logout} className="text-[12px] text-mist-500 hover:text-signal-red">Sign out</button>}
         </div>
       </aside>
 

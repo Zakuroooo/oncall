@@ -22,6 +22,7 @@
  *    Docker. Reading is the entire contract of the web tier.
  */
 import { tryQuery } from "@/lib/db";
+import { REPLAY, SNAPSHOT, RECORDED_NOTE } from "@/lib/replay";
 import {
   DEMO_INCIDENTS, DEMO_TIMELINE, DEMO_VERDICTS, DEMO_SERVICES, DEMO_STATS,
 } from "@/lib/seed";
@@ -31,6 +32,7 @@ import type {
 
 const live = <T>(data: T): Sourced<T> => ({ source: "live", data });
 const demo = <T>(data: T, note: string): Sourced<T> => ({ source: "demo", data, note });
+const recorded = <T>(data: unknown): Sourced<T> => ({ source: "recorded", data: data as T, note: RECORDED_NOTE });
 
 const OFFLINE_NOTE =
   "The control plane is not running, so these are recorded sample runs. Start it locally and this page switches to your own incidents.";
@@ -40,6 +42,7 @@ const EMPTY_NOTE =
 /* ── Incidents ─────────────────────────────────────────────────────────── */
 
 export async function getIncidents(limit = 100): Promise<Sourced<Incident[]>> {
+  if (REPLAY) return recorded<Incident[]>(SNAPSHOT.incidents.slice(0, limit));
   const result = await tryQuery<Incident>(
     `SELECT id, service, fault_class, state, attempt,
             detected_at, closed_at, rag_enabled, seed
@@ -54,6 +57,10 @@ export async function getIncidents(limit = 100): Promise<Sourced<Incident[]>> {
 }
 
 export async function getIncident(id: number): Promise<Sourced<Incident> | null> {
+  if (REPLAY) {
+    const hit = (SNAPSHOT.incidents as Incident[]).find((i) => i.id === id);
+    return hit ? recorded<Incident>(hit) : null;
+  }
   const result = await tryQuery<Incident>(
     `SELECT id, service, fault_class, state, attempt,
             detected_at, closed_at, rag_enabled, seed
@@ -68,6 +75,7 @@ export async function getIncident(id: number): Promise<Sourced<Incident> | null>
 }
 
 export async function getTimeline(incidentId: number): Promise<TimelineEvent[]> {
+  if (REPLAY) return (SNAPSHOT.timeline[String(incidentId)] ?? []) as TimelineEvent[];
   const result = await tryQuery<TimelineEvent>(
     `SELECT id, at, kind, payload
        FROM events WHERE incident_id = $1
@@ -79,6 +87,7 @@ export async function getTimeline(incidentId: number): Promise<TimelineEvent[]> 
 }
 
 export async function getVerdicts(incidentId: number): Promise<Verdict[]> {
+  if (REPLAY) return (SNAPSHOT.verdicts[String(incidentId)] ?? []) as Verdict[];
   const result = await tryQuery<Verdict>(
     `SELECT attempt, sustained_recovered, naive_recovered, window_s, load_rps
        FROM verdicts WHERE incident_id = $1
@@ -102,6 +111,7 @@ export async function getVerdicts(incidentId: number): Promise<Verdict[]> {
  *    trust boundary exists to prevent.
  */
 export async function getServices(): Promise<Sourced<ServiceNode[]>> {
+  if (REPLAY) return recorded<ServiceNode[]>((SNAPSHOT.services as ServiceNode[]).map((r) => ({ ...r, checks: r.checks ?? {} })));
   const base = process.env.ONCALL_CONTROL_URL ?? "http://127.0.0.1:8000";
   try {
     const resp = await fetch(`${base}/api/services`, {
@@ -130,6 +140,7 @@ export async function getServices(): Promise<Sourced<ServiceNode[]>> {
  * So: ask the control plane, or fall back to demo. Never a third implementation.
  */
 export async function getStats(): Promise<Sourced<StatsBundle>> {
+  if (REPLAY) return recorded<StatsBundle>(SNAPSHOT.stats);
   const base = process.env.ONCALL_CONTROL_URL ?? "http://127.0.0.1:8000";
   try {
     const resp = await fetch(`${base}/api/stats`, {

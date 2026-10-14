@@ -1,3 +1,4 @@
+import { REPLAY } from "@/lib/replay";
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import {
@@ -18,6 +19,7 @@ import { readCredentials, respond } from "@/lib/formrequest";
 const DUMMY_HASH_PROMISE = hashPassword("this-password-belongs-to-nobody");
 
 export async function POST(request: Request) {
+  if (REPLAY) return new Response("Accounts are disabled on the public replay.", { status: 404 });
   // Accepts JSON (hydrated form) and form-encoded (native submit). See
   // lib/formrequest.ts for why both matter.
   const creds = await readCredentials(request);

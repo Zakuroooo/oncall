@@ -83,6 +83,14 @@ export function Empty({ title, hint }: { title: string; hint?: string }) {
  * you did not intend to make.
  */
 export function SourceFlag({ source, note }: { source: DataSource; note?: string }) {
+  if (source === "recorded") {
+    return (
+      <div className="flex items-start gap-2 rounded-lg border border-signal-teal/30 bg-signal-teal/8 px-3 py-2 text-[12.5px] text-mist-300">
+        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-signal-teal" aria-hidden="true" />
+        <span><strong className="text-signal-teal">Recorded run.</strong> {note}</span>
+      </div>
+    );
+  }
   if (source === "live") {
     return (
       <div className="flex items-center gap-2 rounded-lg border border-signal-green/25 bg-signal-green/8 px-3 py-2 text-[12.5px] text-mist-300">
@@ -116,6 +124,14 @@ export function SourceFlag({ source, note }: { source: DataSource; note?: string
  *    One flag per source, attached to the panel it actually describes.
  */
 export function SourcePill({ source, note }: { source: DataSource; note?: string }) {
+  if (source === "recorded") {
+    return (
+      <span title={note} className="inline-flex items-center gap-1.5 rounded-full border border-signal-teal/35 bg-signal-teal/10 px-2 py-0.5 text-[10.5px] font-semibold tracking-wide text-signal-teal">
+        <span className="size-1.5 rounded-full bg-current" aria-hidden="true" />
+        recorded
+      </span>
+    );
+  }
   if (source === "live") {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full border border-signal-green/30 bg-signal-green/10 px-2 py-0.5 text-[10.5px] font-semibold tracking-wide text-signal-green">

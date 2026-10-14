@@ -1,0 +1,8 @@
+.env*
+node_modules
+.next
+CLAUDE.md
+AGENTS.md
+db
+scripts
+tsconfig.tsbuildinfo

@@ -93,6 +93,6 @@ export type StatsBundle = {
  *    renders it. It is not decoration — it is the difference between a demo
  *    and a lie.
  */
-export type DataSource = "live" | "demo";
+export type DataSource = "live" | "demo" | "recorded";
 
 export type Sourced<T> = { source: DataSource; data: T; note?: string };

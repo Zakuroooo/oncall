@@ -1,3 +1,4 @@
+import { REPLAY } from "@/lib/replay";
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import {
@@ -7,6 +8,7 @@ import { rateLimit, clientIp, SIGNUP_LIMIT, tooManyRequests } from "@/lib/rateli
 import { readCredentials, respond } from "@/lib/formrequest";
 
 export async function POST(request: Request) {
+  if (REPLAY) return new Response("Accounts are disabled on the public replay.", { status: 404 });
   const creds = await readCredentials(request);
   if (!creds) return NextResponse.json({ error: "Malformed request." }, { status: 400 });
 

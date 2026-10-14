@@ -1,0 +1,3693 @@
+{
+ "recorded_at": "2026-10-14T23:00:04.210381+00:00",
+ "incidents": [
+  {
+   "id": 13,
+   "service": "shopapp",
+   "fault_class": "F4",
+   "state": "RECOVERED",
+   "attempt": 0,
+   "detected_at": "2026-10-14T22:58:26.040298+00:00",
+   "closed_at": "2026-10-14T22:59:15.389128+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 12,
+   "service": "shopapp",
+   "fault_class": "F4",
+   "state": "ESCALATED",
+   "attempt": 0,
+   "detected_at": "2026-10-14T22:57:18.946952+00:00",
+   "closed_at": "2026-10-14T22:57:59.623342+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 11,
+   "service": "shopapp",
+   "fault_class": "F4",
+   "state": "ESCALATED",
+   "attempt": 3,
+   "detected_at": "2026-10-14T22:50:21.004368+00:00",
+   "closed_at": "2026-10-14T22:56:52.618257+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 10,
+   "service": "shopapp",
+   "fault_class": "F4",
+   "state": "RECOVERED",
+   "attempt": 1,
+   "detected_at": "2026-10-14T22:44:10.544018+00:00",
+   "closed_at": "2026-10-14T22:49:22.050524+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 9,
+   "service": "shopapp",
+   "fault_class": "F4",
+   "state": "ESCALATED",
+   "attempt": 0,
+   "detected_at": "2026-10-14T22:41:15.548049+00:00",
+   "closed_at": "2026-10-14T22:41:20.710887+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 8,
+   "service": "shopapp",
+   "fault_class": "F1",
+   "state": "RECOVERED",
+   "attempt": 0,
+   "detected_at": "2026-08-27T16:39:01.036132+00:00",
+   "closed_at": "2026-08-27T16:40:03.539478+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 7,
+   "service": "shopapp",
+   "fault_class": "F1",
+   "state": "RECOVERED",
+   "attempt": 0,
+   "detected_at": "2026-08-27T16:08:00.994227+00:00",
+   "closed_at": "2026-08-27T16:08:44.979591+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 6,
+   "service": "shopapp",
+   "fault_class": "F4",
+   "state": "ESCALATED",
+   "attempt": 0,
+   "detected_at": "2026-08-27T16:07:04.733780+00:00",
+   "closed_at": "2026-08-27T16:07:09.192732+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 4,
+   "service": "shopapp",
+   "fault_class": "F2",
+   "state": "ESCALATED",
+   "attempt": 0,
+   "detected_at": "2026-08-24T22:05:55.438940+00:00",
+   "closed_at": "2026-08-24T22:06:02.403721+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 3,
+   "service": "shopapp",
+   "fault_class": "F1",
+   "state": "RECOVERED",
+   "attempt": 0,
+   "detected_at": "2026-08-24T22:01:50.659333+00:00",
+   "closed_at": "2026-08-24T22:03:21.213674+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 2,
+   "service": "shopapp",
+   "fault_class": "F1",
+   "state": "ESCALATED",
+   "attempt": 0,
+   "detected_at": "2026-08-24T21:59:00.980881+00:00",
+   "closed_at": "2026-08-24T21:59:02.107809+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  },
+  {
+   "id": 1,
+   "service": "shopapp",
+   "fault_class": "F1",
+   "state": "ESCALATED",
+   "attempt": 0,
+   "detected_at": "2026-08-24T20:10:46.101695+00:00",
+   "closed_at": "2026-08-24T20:10:47.988754+00:00",
+   "rag_enabled": true,
+   "seed": 1337
+  }
+ ],
+ "timeline": {
+  "1": [
+   {
+    "id": 1,
+    "at": "2026-08-24T20:10:46.101695+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "/health se connection refused (ConnectError). Container 'exited (137)'.",
+     "fault_class": "F1"
+    }
+   },
+   {
+    "id": 2,
+    "at": "2026-08-24T20:10:47.348828+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker ne job uthaya",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 3,
+    "at": "2026-08-24T20:10:47.552954+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [],
+     "service": "shopapp",
+     "exit_code": 137,
+     "raw_line_count": 400,
+     "container_state": "exited",
+     "kept_line_count": 0,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 4,
+    "at": "2026-08-24T20:10:47.583167+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs mil gaye",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 5,
+    "at": "2026-08-24T20:10:47.985612+00:00",
+    "kind": "escalate",
+    "payload": {
+     "detail": "koi provider nahi bola (last: groq: AuthenticationError: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}) \u2014 .env mein GROQ_API_KEY check karo",
+     "reason": "llm_unavailable"
+    }
+   },
+   {
+    "id": 6,
+    "at": "2026-08-24T20:10:47.988754+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "llm_unavailable",
+     "from": "DIAGNOSING"
+    }
+   }
+  ],
+  "2": [
+   {
+    "id": 7,
+    "at": "2026-08-24T21:59:00.980881+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "/health se connection refused (ConnectError). Container 'exited (137)'.",
+     "fault_class": "F1"
+    }
+   },
+   {
+    "id": 8,
+    "at": "2026-08-24T21:59:01.550320+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker ne job uthaya",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 9,
+    "at": "2026-08-24T21:59:01.697194+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "INFO:     172.18.0.1:53750 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:53758 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:53756 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:53782 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 137,
+     "raw_line_count": 132,
+     "container_state": "exited",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 10,
+    "at": "2026-08-24T21:59:01.701563+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs mil gaye",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 11,
+    "at": "2026-08-24T21:59:02.104524+00:00",
+    "kind": "escalate",
+    "payload": {
+     "detail": "koi provider nahi bola (last: groq: NotFoundError: Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}) \u2014 .env mein GROQ_API_KEY check karo",
+     "reason": "llm_unavailable"
+    }
+   },
+   {
+    "id": 12,
+    "at": "2026-08-24T21:59:02.107809+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "llm_unavailable",
+     "from": "DIAGNOSING"
+    }
+   }
+  ],
+  "3": [
+   {
+    "id": 13,
+    "at": "2026-08-24T22:01:50.659333+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "/health se connection refused (ConnectError). Container 'exited (137)'.",
+     "fault_class": "F1"
+    }
+   },
+   {
+    "id": 14,
+    "at": "2026-08-24T22:01:51.232828+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker ne job uthaya",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 15,
+    "at": "2026-08-24T22:01:51.291817+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:53756 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:53782 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 137,
+     "raw_line_count": 175,
+     "container_state": "exited",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 16,
+    "at": "2026-08-24T22:01:51.294711+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs mil gaye",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 17,
+    "at": "2026-08-24T22:01:52.424416+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "no answer (ConnectError)",
+     "summary": "shopapp container was killed (exit code 137), likely OOM, causing health check failures and repeated ASGI exceptions",
+     "evidence": [
+      "Exit code: 137",
+      "Health endpoint: no answer (ConnectError)",
+      "ERROR:    Exception in ASGI application"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 1015,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 18,
+    "at": "2026-08-24T22:01:52.432091+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 19,
+    "at": "2026-08-24T22:01:57.522631+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 213,
+     "top_rrf_score": 0.016393,
+     "top_runbook_id": "rb-redis-flushall#12",
+     "vector_candidates": 10,
+     "keyword_candidates": 0
+    }
+   },
+   {
+    "id": 20,
+    "at": "2026-08-24T22:01:57.531702+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 21,
+    "at": "2026-08-24T22:01:58.620484+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "start_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "The shopapp container exited with code 137, indicating an OOM kill. Restarting won't work because the service is not running; we need to start it again so health checks can resume. Starting the service gives the app a fresh memory allocation and allows us to monitor if OOM recurs.",
+     "latency_ms": 1039,
+     "runbook_id": "rb-redis-flushall#12"
+    }
+   },
+   {
+    "id": 22,
+    "at": "2026-08-24T22:01:58.631356+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 23,
+    "at": "2026-08-24T22:02:49.890480+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "start_service",
+     "attempt": 0,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 24,
+    "at": "2026-08-24T22:02:49.898815+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "insaan ne approve kiya",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 25,
+    "at": "2026-08-24T22:02:50.549060+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "start_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "attempt": 0,
+     "incident_id": 3
+    }
+   },
+   {
+    "id": 26,
+    "at": "2026-08-24T22:02:51.026035+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopapp start kiya",
+     "output": "",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 27,
+    "at": "2026-08-24T22:02:51.037543+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action chali (exit=0) \u2014 ab ORACLE bolega",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 28,
+    "at": "2026-08-24T22:03:21.210427+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 580,
+      "fired": 600,
+      "errors": {
+       "RemoteProtocolError": 20
+      },
+      "failed": 20,
+      "duration_s": 29.916,
+      "error_rate": 0.0333,
+      "status_counts": {
+       "200": 580
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 20,
+       "ok": false,
+       "at_s": 0.0,
+       "error": "RemoteProtocolError",
+       "status": null
+      },
+      {
+       "n": 1,
+       "ms": 29,
+       "ok": true,
+       "at_s": 10.1,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 28,
+       "ok": true,
+       "at_s": 20.1,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 3,
+       "ms": 9,
+       "ok": true,
+       "at_s": 30.1,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 0,
+     "disagreed": false,
+     "naive_recovered": false,
+     "sustained_recovered": true
+    }
+   },
+   {
+    "id": 29,
+    "at": "2026-08-24T22:03:21.213674+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RECOVERED",
+     "why": "oracle pass \u2014 sustained",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 41,
+    "at": "2026-08-24T22:23:27.034290+00:00",
+    "kind": "verify",
+    "payload": {
+     "detail": "HTTP 200",
+     "recheck_5min_ok": true
+    }
+   }
+  ],
+  "4": [
+   {
+    "id": 30,
+    "at": "2026-08-24T22:05:55.438940+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "/health 503, checks.disk = 'FAIL OSError: [Errno 28] No space left on device'.",
+     "fault_class": "F2"
+    }
+   },
+   {
+    "id": 31,
+    "at": "2026-08-24T22:05:56.107995+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker ne job uthaya",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 32,
+    "at": "2026-08-24T22:05:56.207122+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [],
+     "service": "shopapp",
+     "exit_code": 0,
+     "raw_line_count": 400,
+     "container_state": "running",
+     "kept_line_count": 0,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 33,
+    "at": "2026-08-24T22:05:56.209052+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs mil gaye",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 34,
+    "at": "2026-08-24T22:05:57.331931+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200",
+     "summary": "No failure detected; service appears healthy with running container and HTTP 200 health check",
+     "evidence": [
+      "(no error lines found)"
+     ],
+     "provider": "groq",
+     "confidence": 0.85,
+     "latency_ms": 1064,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 35,
+    "at": "2026-08-24T22:05:57.334509+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 36,
+    "at": "2026-08-24T22:06:01.081176+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 116,
+     "top_rrf_score": 0.016393,
+     "top_runbook_id": "rb-docker-container-stop#3",
+     "vector_candidates": 10,
+     "keyword_candidates": 0
+    }
+   },
+   {
+    "id": 37,
+    "at": "2026-08-24T22:06:01.086354+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 38,
+    "at": "2026-08-24T22:06:02.396445+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "escalate",
+     "params": {
+      "reason": "Service shopapp reports healthy (running container, HTTP 200) with no error lines; diagnosis finds no failure, so no remediation action is applicable."
+     },
+     "provider": "groq",
+     "reasoning": "The diagnosis indicates the shopapp service is healthy and no errors are present. The retrieved runbooks pertain to stopping containers, which is unnecessary and could cause disruption. Since no issue is detected, the appropriate step is to escalate for further investigation rather than perform an unwarranted action.",
+     "latency_ms": 1270,
+     "runbook_id": "rb-docker-container-stop#3"
+    }
+   },
+   {
+    "id": 39,
+    "at": "2026-08-24T22:06:02.401540+00:00",
+    "kind": "escalate",
+    "payload": {
+     "via": "agent_choice",
+     "detail": "Service shopapp reports healthy (running container, HTTP 200) with no error lines; diagnosis finds no failure, so no remediation action is applicable.",
+     "reason": "voluntary"
+    }
+   },
+   {
+    "id": 40,
+    "at": "2026-08-24T22:06:02.403721+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "voluntary",
+     "from": "PROPOSING"
+    }
+   }
+  ],
+  "6": [
+   {
+    "id": 51,
+    "at": "2026-08-27T16:07:04.733780+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "Idle pe /health 200. Load pe 'FATAL: sorry, too many clients already' \u2192 503.",
+     "fault_class": "F4"
+    }
+   },
+   {
+    "id": 52,
+    "at": "2026-08-27T16:07:05.194328+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 53,
+    "at": "2026-08-27T16:07:05.220260+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:43952 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:43968 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:43980 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "raw_line_count": 179,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 54,
+    "at": "2026-08-27T16:07:05.222182+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 55,
+    "at": "2026-08-27T16:07:06.812282+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200",
+     "summary": "shopapp's /orders endpoint returns 500 errors due to unhandled exception in ASGI application",
+     "evidence": [
+      "INFO:     172.18.0.1:43952 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:43968 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application"
+     ],
+     "provider": "groq",
+     "confidence": 0.86,
+     "latency_ms": 1534,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 56,
+    "at": "2026-08-27T16:07:06.814397+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 57,
+    "at": "2026-08-27T16:07:07.998748+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 288,
+     "top_rrf_score": 0.016393,
+     "top_runbook_id": "rb-pg-logging-config#1",
+     "vector_candidates": 10,
+     "keyword_candidates": 0
+    }
+   },
+   {
+    "id": 58,
+    "at": "2026-08-27T16:07:08.000245+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 59,
+    "at": "2026-08-27T16:07:09.184732+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "escalate",
+     "params": {
+      "reason": "The /orders endpoint returns 500 due to an unhandled exception in the ASGI application, indicating a code bug. None of the allowed remediation actions (restart, cache flush, DB tweaks, etc.) can address the underlying application error. Escalate to developers for code fix."
+     },
+     "provider": "groq",
+     "reasoning": "The diagnosis points to an application-level exception, not a service state, cache, or DB configuration issue. Restarting or flushing would not resolve the bug, so escalation is required.",
+     "latency_ms": 1160,
+     "runbook_id": "rb-pg-logging-config#1"
+    }
+   },
+   {
+    "id": 60,
+    "at": "2026-08-27T16:07:09.189876+00:00",
+    "kind": "escalate",
+    "payload": {
+     "via": "agent_choice",
+     "detail": "The /orders endpoint returns 500 due to an unhandled exception in the ASGI application, indicating a code bug. None of the allowed remediation actions (restart, cache flush, DB tweaks, etc.) can address the underlying application error. Escalate to developers for code fix.",
+     "reason": "voluntary"
+    }
+   },
+   {
+    "id": 61,
+    "at": "2026-08-27T16:07:09.192732+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "voluntary",
+     "from": "PROPOSING"
+    }
+   }
+  ],
+  "7": [
+   {
+    "id": 62,
+    "at": "2026-08-27T16:08:00.994227+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "/health se connection refused (ConnectError). Container 'exited (137)'.",
+     "fault_class": "F1"
+    }
+   },
+   {
+    "id": 63,
+    "at": "2026-08-27T16:08:01.710952+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 64,
+    "at": "2026-08-27T16:08:01.734489+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "INFO:     172.18.0.1:43952 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:43968 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:43980 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 137,
+     "raw_line_count": 163,
+     "container_state": "exited",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 65,
+    "at": "2026-08-27T16:08:01.736846+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 66,
+    "at": "2026-08-27T16:08:02.741913+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "no answer (ConnectError)",
+     "summary": "shopapp container exited with code 137 (OOM) and health endpoint is unreachable, causing 500 errors in the ASGI app",
+     "evidence": [
+      "Exit code: 137",
+      "Health endpoint: no answer (ConnectError)",
+      "ERROR:    Exception in ASGI application"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 980,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 67,
+    "at": "2026-08-27T16:08:02.745538+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 68,
+    "at": "2026-08-27T16:08:03.155473+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 212,
+     "top_rrf_score": 0.016393,
+     "top_runbook_id": "rb-redis-flushall#12",
+     "vector_candidates": 10,
+     "keyword_candidates": 0
+    }
+   },
+   {
+    "id": 69,
+    "at": "2026-08-27T16:08:03.157129+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 70,
+    "at": "2026-08-27T16:08:04.557409+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "The shopapp container exited with code 137, indicating it was killed by the OOM killer and the health endpoint is unreachable, causing 500 errors. Restarting the service gives the container a fresh memory allocation and re\u2011initialises the ASGI app, which is the standard first\u2011step remediation for OOM\u2011related crashes per the runbook.",
+     "latency_ms": 1375,
+     "runbook_id": "rb-redis-flushall#12"
+    }
+   },
+   {
+    "id": 71,
+    "at": "2026-08-27T16:08:04.566392+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 72,
+    "at": "2026-08-27T16:08:14.018890+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "restart_service",
+     "attempt": 0,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 73,
+    "at": "2026-08-27T16:08:14.020985+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 74,
+    "at": "2026-08-27T16:08:14.701711+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "attempt": 0,
+     "incident_id": 7
+    }
+   },
+   {
+    "id": 75,
+    "at": "2026-08-27T16:08:14.865553+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopapp restarted (SIGTERM, 10 s grace)",
+     "output": "",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 76,
+    "at": "2026-08-27T16:08:14.868048+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 77,
+    "at": "2026-08-27T16:08:44.975639+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 580,
+      "fired": 600,
+      "errors": {
+       "RemoteProtocolError": 20
+      },
+      "failed": 20,
+      "duration_s": 29.894,
+      "error_rate": 0.0333,
+      "status_counts": {
+       "200": 580
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 7,
+       "ok": false,
+       "at_s": 0.0,
+       "error": "RemoteProtocolError",
+       "status": null
+      },
+      {
+       "n": 1,
+       "ms": 26,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 21,
+       "ok": true,
+       "at_s": 20.1,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 3,
+       "ms": 10,
+       "ok": true,
+       "at_s": 30.1,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 0,
+     "disagreed": false,
+     "naive_recovered": false,
+     "sustained_recovered": true
+    }
+   },
+   {
+    "id": 78,
+    "at": "2026-08-27T16:08:44.979591+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RECOVERED",
+     "why": "oracle pass \u2014 sustained",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 79,
+    "at": "2026-08-27T16:13:47.708832+00:00",
+    "kind": "verify",
+    "payload": {
+     "detail": "HTTP 200",
+     "recheck_5min_ok": true
+    }
+   }
+  ],
+  "8": [
+   {
+    "id": 80,
+    "at": "2026-08-27T16:39:01.036132+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "/health se connection refused (ConnectError). Container 'exited (137)'.",
+     "fault_class": "F1"
+    }
+   },
+   {
+    "id": 81,
+    "at": "2026-08-27T16:39:01.804903+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 82,
+    "at": "2026-08-27T16:39:01.837842+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "INFO:     172.18.0.1:40150 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:40164 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:40174 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:40188 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 137,
+     "raw_line_count": 160,
+     "container_state": "exited",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 83,
+    "at": "2026-08-27T16:39:01.839287+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 84,
+    "at": "2026-08-27T16:39:03.132018+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "no answer (ConnectError)",
+     "summary": "shopapp container exited with code 137 (OOM) causing health endpoint failure and repeated 500 errors from ASGI exceptions",
+     "evidence": [
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:40150 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:40164 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:40174 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:40188 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 1271,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 85,
+    "at": "2026-08-27T16:39:03.135736+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 86,
+    "at": "2026-08-27T16:39:03.640831+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 317,
+     "top_rrf_score": 0.016393,
+     "top_runbook_id": "rb-redis-flushall#12",
+     "vector_candidates": 10,
+     "keyword_candidates": 0
+    }
+   },
+   {
+    "id": 87,
+    "at": "2026-08-27T16:39:03.642356+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 88,
+    "at": "2026-08-27T16:39:05.966922+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "The shopapp container exited with code 137 indicating an OOM kill, which also broke the health endpoint and caused 500 errors. Restarting the shopapp service will bring the container back up and restore functionality while we investigate memory usage.",
+     "latency_ms": 1136,
+     "runbook_id": "rb-redis-flushall#12"
+    }
+   },
+   {
+    "id": 89,
+    "at": "2026-08-27T16:39:05.974873+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 90,
+    "at": "2026-08-27T16:39:32.419797+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "restart_service",
+     "attempt": 0,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 91,
+    "at": "2026-08-27T16:39:32.422063+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 92,
+    "at": "2026-08-27T16:39:33.244571+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "attempt": 0,
+     "incident_id": 8
+    }
+   },
+   {
+    "id": 93,
+    "at": "2026-08-27T16:39:33.412948+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopapp restarted (SIGTERM, 10 s grace)",
+     "output": "",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 94,
+    "at": "2026-08-27T16:39:33.414712+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 95,
+    "at": "2026-08-27T16:40:03.536501+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 580,
+      "fired": 600,
+      "errors": {
+       "RemoteProtocolError": 20
+      },
+      "failed": 20,
+      "duration_s": 29.898,
+      "error_rate": 0.0333,
+      "status_counts": {
+       "200": 580
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 2,
+       "ok": false,
+       "at_s": 0.0,
+       "error": "RemoteProtocolError",
+       "status": null
+      },
+      {
+       "n": 1,
+       "ms": 27,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 21,
+       "ok": true,
+       "at_s": 20.1,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 3,
+       "ms": 10,
+       "ok": true,
+       "at_s": 30.1,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 0,
+     "disagreed": false,
+     "naive_recovered": false,
+     "sustained_recovered": true
+    }
+   },
+   {
+    "id": 96,
+    "at": "2026-08-27T16:40:03.539478+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RECOVERED",
+     "why": "oracle pass \u2014 sustained",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 97,
+    "at": "2026-08-27T16:45:06.354157+00:00",
+    "kind": "verify",
+    "payload": {
+     "detail": "HTTP 200",
+     "recheck_5min_ok": true
+    }
+   }
+  ],
+  "9": [
+   {
+    "id": 98,
+    "at": "2026-10-14T22:41:15.548049+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "Idle pe /health 200. Load pe 'FATAL: sorry, too many clients already' \u2192 503.",
+     "fault_class": "F4"
+    }
+   },
+   {
+    "id": 99,
+    "at": "2026-10-14T22:41:16.097924+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 100,
+    "at": "2026-10-14T22:41:16.132396+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [],
+     "service": "shopapp",
+     "exit_code": 0,
+     "raw_line_count": 15,
+     "container_state": "running",
+     "kept_line_count": 0,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 101,
+    "at": "2026-10-14T22:41:16.133981+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 102,
+    "at": "2026-10-14T22:41:18.280348+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200",
+     "summary": "Service shopapp appears healthy; container is running, exit code 0, health endpoint returns 200 and logs show no errors",
+     "evidence": [
+      "(no error lines found)"
+     ],
+     "provider": "groq",
+     "confidence": 0.8,
+     "latency_ms": 2090,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 103,
+    "at": "2026-10-14T22:41:18.282941+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 104,
+    "at": "2026-10-14T22:41:19.698472+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 142,
+     "top_rrf_score": 0.016393,
+     "top_runbook_id": "rb-pg-logging-config#21",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 105,
+    "at": "2026-10-14T22:41:19.700325+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 106,
+    "at": "2026-10-14T22:41:20.707224+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "escalate",
+     "params": {
+      "reason": "Service shopapp is reported healthy with no errors; container running and health endpoint 200. No remediation action is applicable."
+     },
+     "provider": "groq",
+     "reasoning": "Diagnosis shows shopapp healthy, no logs or errors. No allowed action would improve anything, so escalation is appropriate to indicate no action needed.",
+     "latency_ms": 986,
+     "runbook_id": "rb-pg-logging-config#21"
+    }
+   },
+   {
+    "id": 107,
+    "at": "2026-10-14T22:41:20.709508+00:00",
+    "kind": "escalate",
+    "payload": {
+     "via": "agent_choice",
+     "detail": "Service shopapp is reported healthy with no errors; container running and health endpoint 200. No remediation action is applicable.",
+     "reason": "voluntary"
+    }
+   },
+   {
+    "id": 108,
+    "at": "2026-10-14T22:41:20.710887+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "voluntary",
+     "from": "PROPOSING"
+    }
+   }
+  ],
+  "10": [
+   {
+    "id": 109,
+    "at": "2026-10-14T22:44:10.544018+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "Idle pe /health 200. Load pe 'FATAL: sorry, too many clients already' \u2192 503.",
+     "fault_class": "F4"
+    }
+   },
+   {
+    "id": 110,
+    "at": "2026-10-14T22:44:11.442543+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 111,
+    "at": "2026-10-14T22:44:18.915885+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "2026-10-14 22:44:18,485 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "INFO:     172.18.0.1:40146 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 90,
+      "fired": 100,
+      "errors": {},
+      "failed": 10,
+      "duration_s": 7.433,
+      "error_rate": 0.1,
+      "status_counts": {
+       "200": 90,
+       "500": 10
+      }
+     },
+     "raw_line_count": 188,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 112,
+    "at": "2026-10-14T22:44:18.917923+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 113,
+    "at": "2026-10-14T22:44:21.447927+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.433 s): 10 failed, status counts {'200': 90, '500': 10}",
+     "summary": "shopapp is returning 500 errors because its DB connection pool is exhausted (\"too many clients\" error)",
+     "evidence": [
+      "2026-10-14 22:44:18,485 WARNING psycopg.pool: error connecting in 'pool-1': connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "INFO:     172.18.0.1:40146 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.93,
+     "latency_ms": 2506,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 114,
+    "at": "2026-10-14T22:44:21.450595+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 115,
+    "at": "2026-10-14T22:44:23.098931+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 352,
+     "top_rrf_score": 0.031545,
+     "top_runbook_id": "rb-postgres-max-connections#2",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 116,
+    "at": "2026-10-14T22:44:23.101648+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 117,
+    "at": "2026-10-14T22:44:24.504958+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "set_db_setting",
+     "params": {
+      "key": "max_connections",
+      "value": 200,
+      "service": "shopdb"
+     },
+     "provider": "groq",
+     "reasoning": "The shopapp is failing with 500 errors due to PostgreSQL reporting \"too many clients\". The runbook rb\u2011postgres\u2011max\u2011connections#2 explains that increasing max_connections raises the allowed concurrent DB connections. Raising it from the default (~100) to 200 should relieve the pool exhaustion causing the shopapp failures.",
+     "latency_ms": 1364,
+     "runbook_id": "rb-postgres-max-connections#2"
+    }
+   },
+   {
+    "id": 118,
+    "at": "2026-10-14T22:44:24.520256+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 119,
+    "at": "2026-10-14T22:44:32.983171+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "set_db_setting",
+     "attempt": 0,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 120,
+    "at": "2026-10-14T22:44:32.985941+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 121,
+    "at": "2026-10-14T22:44:33.625220+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "set_db_setting",
+     "params": {
+      "key": "max_connections",
+      "value": 200,
+      "service": "shopdb"
+     },
+     "attempt": 0,
+     "incident_id": 10
+    }
+   },
+   {
+    "id": 122,
+    "at": "2026-10-14T22:44:33.712092+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": false,
+     "phase": "result",
+     "detail": "ALTER SYSTEM fail: psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  sorry, too many clients already",
+     "output": "psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  sorry, too many clients already",
+     "exit_code": 2
+    }
+   },
+   {
+    "id": 123,
+    "at": "2026-10-14T22:44:33.715131+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=2) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 124,
+    "at": "2026-10-14T22:45:09.449653+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 415,
+      "fired": 600,
+      "errors": {},
+      "failed": 185,
+      "duration_s": 33.888,
+      "error_rate": 0.3083,
+      "status_counts": {
+       "200": 415,
+       "500": 185
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 12,
+       "ok": true,
+       "at_s": 0.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 1,
+       "ms": 2667,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 3011,
+       "ok": false,
+       "at_s": 22.7,
+       "error": null,
+       "status": 503
+      },
+      {
+       "n": 3,
+       "ms": 11,
+       "ok": true,
+       "at_s": 35.7,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 0,
+     "disagreed": true,
+     "naive_recovered": true,
+     "sustained_recovered": false
+    }
+   },
+   {
+    "id": 125,
+    "at": "2026-10-14T22:45:09.455982+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "fail \u2014 retry #2 starts from fresh collection (D19)",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 126,
+    "at": "2026-10-14T22:45:16.922109+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:48704 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:48954 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:48822 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 90,
+      "fired": 100,
+      "errors": {},
+      "failed": 10,
+      "duration_s": 7.411,
+      "error_rate": 0.1,
+      "status_counts": {
+       "200": 90,
+       "500": 10
+      }
+     },
+     "raw_line_count": 177,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 127,
+    "at": "2026-10-14T22:45:16.937074+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 128,
+    "at": "2026-10-14T22:45:19.001103+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.411 s): 10 failed, status counts {'200': 90, '500': 10}",
+     "summary": "shopapp is returning 500 Internal Server Errors on /orders requests due to unhandled exceptions in the ASGI application",
+     "evidence": [
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:48704 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:48954 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:48822 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.93,
+     "latency_ms": 2040,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 129,
+    "at": "2026-10-14T22:45:19.006001+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 130,
+    "at": "2026-10-14T22:45:19.514942+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 315,
+     "top_rrf_score": 0.032522,
+     "top_runbook_id": "rb-redis-info#13",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 131,
+    "at": "2026-10-14T22:45:19.517515+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 132,
+    "at": "2026-10-14T22:45:20.592980+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "The diagnosis shows shopapp is throwing unhandled exceptions causing 500 errors on /orders. A service restart often clears transient state, reloads code, and resolves such ASGI errors. No prior restart attempt was made, so restarting shopapp is the next logical step.",
+     "latency_ms": 1054,
+     "runbook_id": "rb-redis-info#13"
+    }
+   },
+   {
+    "id": 133,
+    "at": "2026-10-14T22:45:20.599463+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 134,
+    "at": "2026-10-14T22:48:50.905486+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "restart_service",
+     "attempt": 1,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 135,
+    "at": "2026-10-14T22:48:50.909061+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 136,
+    "at": "2026-10-14T22:48:51.178384+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "attempt": 1,
+     "incident_id": 10
+    }
+   },
+   {
+    "id": 137,
+    "at": "2026-10-14T22:48:51.812754+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopapp restarted (SIGTERM, 10 s grace)",
+     "output": "",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 138,
+    "at": "2026-10-14T22:48:51.816375+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 139,
+    "at": "2026-10-14T22:49:22.028591+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 580,
+      "fired": 600,
+      "errors": {
+       "RemoteProtocolError": 20
+      },
+      "failed": 20,
+      "duration_s": 29.889,
+      "error_rate": 0.0333,
+      "status_counts": {
+       "200": 580
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 5,
+       "ok": false,
+       "at_s": 0.0,
+       "error": "RemoteProtocolError",
+       "status": null
+      },
+      {
+       "n": 1,
+       "ms": 23,
+       "ok": true,
+       "at_s": 10.1,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 23,
+       "ok": true,
+       "at_s": 20.1,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 3,
+       "ms": 16,
+       "ok": true,
+       "at_s": 30.1,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 1,
+     "disagreed": false,
+     "naive_recovered": false,
+     "sustained_recovered": true
+    }
+   },
+   {
+    "id": 140,
+    "at": "2026-10-14T22:49:22.050524+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RECOVERED",
+     "why": "oracle pass \u2014 sustained",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 196,
+    "at": "2026-10-14T22:54:23.057775+00:00",
+    "kind": "verify",
+    "payload": {
+     "detail": "HTTP 200",
+     "recheck_5min_ok": true
+    }
+   }
+  ],
+  "11": [
+   {
+    "id": 141,
+    "at": "2026-10-14T22:50:21.004368+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "Idle pe /health 200. Load pe 'FATAL: sorry, too many clients already' \u2192 503.",
+     "fault_class": "F4"
+    }
+   },
+   {
+    "id": 142,
+    "at": "2026-10-14T22:50:21.789274+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 143,
+    "at": "2026-10-14T22:50:28.992366+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:49042 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:49052 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:49064 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 85,
+      "fired": 100,
+      "errors": {},
+      "failed": 15,
+      "duration_s": 7.162,
+      "error_rate": 0.15,
+      "status_counts": {
+       "200": 85,
+       "500": 15
+      }
+     },
+     "raw_line_count": 136,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 144,
+    "at": "2026-10-14T22:50:28.998942+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 145,
+    "at": "2026-10-14T22:50:30.630822+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.162 s): 15 failed, status counts {'200': 85, '500': 15}",
+     "summary": "shopapp is returning 500 Internal Server Errors on /orders due to unhandled exceptions in the ASGI application",
+     "evidence": [
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:49042 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:49052 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:49064 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.93,
+     "latency_ms": 1591,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 146,
+    "at": "2026-10-14T22:50:30.633828+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 147,
+    "at": "2026-10-14T22:50:32.144764+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 306,
+     "top_rrf_score": 0.032002,
+     "top_runbook_id": "rb-redis-info#13",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 148,
+    "at": "2026-10-14T22:50:32.148135+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 149,
+    "at": "2026-10-14T22:50:33.317879+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "The diagnosis shows shopapp is returning 500 errors due to unhandled exceptions in the ASGI layer. A fresh process often clears transient state, reloads code, and reinitializes connections, which can resolve such runtime crashes. No specific runbook matches this exact symptom, so we restart the service to restore normal operation.",
+     "latency_ms": 707,
+     "runbook_id": "rb-redis-info#13"
+    }
+   },
+   {
+    "id": 150,
+    "at": "2026-10-14T22:50:33.326443+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 151,
+    "at": "2026-10-14T22:50:33.422913+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "restart_service",
+     "attempt": 0,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 152,
+    "at": "2026-10-14T22:50:33.424899+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 153,
+    "at": "2026-10-14T22:50:34.360644+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "attempt": 0,
+     "incident_id": 11
+    }
+   },
+   {
+    "id": 154,
+    "at": "2026-10-14T22:50:35.067248+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopapp restarted (SIGTERM, 10 s grace)",
+     "output": "",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 155,
+    "at": "2026-10-14T22:50:35.072359+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 156,
+    "at": "2026-10-14T22:51:10.566521+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 400,
+      "fired": 600,
+      "errors": {
+       "RemoteProtocolError": 20
+      },
+      "failed": 200,
+      "duration_s": 33.633,
+      "error_rate": 0.3333,
+      "status_counts": {
+       "200": 400,
+       "500": 180
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 6,
+       "ok": false,
+       "at_s": 0.0,
+       "error": "RemoteProtocolError",
+       "status": null
+      },
+      {
+       "n": 1,
+       "ms": 2433,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 3006,
+       "ok": false,
+       "at_s": 22.5,
+       "error": null,
+       "status": 503
+      },
+      {
+       "n": 3,
+       "ms": 6,
+       "ok": true,
+       "at_s": 35.5,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 0,
+     "disagreed": false,
+     "naive_recovered": false,
+     "sustained_recovered": false
+    }
+   },
+   {
+    "id": 157,
+    "at": "2026-10-14T22:51:10.573192+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "fail \u2014 retry #2 starts from fresh collection (D19)",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 158,
+    "at": "2026-10-14T22:51:18.022141+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "INFO:     172.18.0.1:38158 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:38186 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:38190 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:38176 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 90,
+      "fired": 100,
+      "errors": {},
+      "failed": 10,
+      "duration_s": 7.398,
+      "error_rate": 0.1,
+      "status_counts": {
+       "200": 90,
+       "500": 10
+      }
+     },
+     "raw_line_count": 176,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 159,
+    "at": "2026-10-14T22:51:18.025647+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 160,
+    "at": "2026-10-14T22:51:19.009190+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.398 s): 10 failed, status counts {'200': 90, '500': 10}",
+     "summary": "The shopapp service\u2019s /orders endpoint is returning 500 Internal Server Errors, indicating an unhandled exception in the ASGI application.",
+     "evidence": [
+      "INFO:     172.18.0.1:38158 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:38186 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:38190 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 956,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 161,
+    "at": "2026-10-14T22:51:19.018628+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 162,
+    "at": "2026-10-14T22:51:19.579030+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 334,
+     "top_rrf_score": 0.031754,
+     "top_runbook_id": "rb-redis-info#13",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 163,
+    "at": "2026-10-14T22:51:19.586145+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 164,
+    "at": "2026-10-14T22:51:21.191755+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "clear_directory",
+     "params": {
+      "path": "/tmp/shopapp-cache",
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "Restarting shopapp did not resolve the 500 errors, indicating the failure persists beyond process state. The ASGI error likely stems from corrupted or stale cache files used by the /orders endpoint. Clearing the temporary cache directory forces the application to rebuild its cache on next request, a common remediation for unhandled exceptions caused by bad cache data.",
+     "latency_ms": 1193,
+     "runbook_id": "rb-redis-info#13"
+    }
+   },
+   {
+    "id": 165,
+    "at": "2026-10-14T22:51:21.201443+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 166,
+    "at": "2026-10-14T22:51:25.308495+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "clear_directory",
+     "attempt": 1,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 167,
+    "at": "2026-10-14T22:51:25.309582+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 168,
+    "at": "2026-10-14T22:51:26.254644+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "clear_directory",
+     "params": {
+      "path": "/tmp/shopapp-cache",
+      "service": "shopapp"
+     },
+     "attempt": 1,
+     "incident_id": 11
+    }
+   },
+   {
+    "id": 169,
+    "at": "2026-10-14T22:51:26.314742+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "cleared shopapp:/tmp/shopapp-cache",
+     "output": "",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 170,
+    "at": "2026-10-14T22:51:26.316831+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 171,
+    "at": "2026-10-14T22:52:02.061997+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 415,
+      "fired": 600,
+      "errors": {},
+      "failed": 185,
+      "duration_s": 33.862,
+      "error_rate": 0.3083,
+      "status_counts": {
+       "200": 415,
+       "500": 185
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 25,
+       "ok": true,
+       "at_s": 0.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 1,
+       "ms": 2658,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 3008,
+       "ok": false,
+       "at_s": 22.7,
+       "error": null,
+       "status": 503
+      },
+      {
+       "n": 3,
+       "ms": 22,
+       "ok": true,
+       "at_s": 35.7,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 1,
+     "disagreed": true,
+     "naive_recovered": true,
+     "sustained_recovered": false
+    }
+   },
+   {
+    "id": 172,
+    "at": "2026-10-14T22:52:02.067792+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "fail \u2014 retry #3 starts from fresh collection (D19)",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 173,
+    "at": "2026-10-14T22:52:09.561928+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:56676 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:56688 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 90,
+      "fired": 100,
+      "errors": {},
+      "failed": 10,
+      "duration_s": 7.424,
+      "error_rate": 0.1,
+      "status_counts": {
+       "200": 90,
+       "500": 10
+      }
+     },
+     "raw_line_count": 189,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 174,
+    "at": "2026-10-14T22:52:09.570507+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 175,
+    "at": "2026-10-14T22:52:10.487501+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.424 s): 10 failed, status counts {'200': 90, '500': 10}",
+     "summary": "The shopapp service is returning 500 errors because the ASGI application is raising unhandled exceptions during /orders requests",
+     "evidence": [
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:56676 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "INFO:     172.18.0.1:56688 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 888,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 176,
+    "at": "2026-10-14T22:52:10.489966+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 177,
+    "at": "2026-10-14T22:52:10.982815+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 324,
+     "top_rrf_score": 0.032002,
+     "top_runbook_id": "rb-redis-info#13",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 178,
+    "at": "2026-10-14T22:52:10.984682+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 179,
+    "at": "2026-10-14T22:52:15.027736+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "flush_cache",
+     "params": {
+      "service": "shopcache"
+     },
+     "provider": "groq",
+     "reasoning": "The shopapp is throwing 500 errors on /orders, likely due to corrupted or stale cache data. Restarting the app and clearing its temp directory didn't help, so flushing the shared cache (shopcache) may remove bad entries causing the ASGI exceptions.",
+     "latency_ms": 1092,
+     "runbook_id": "rb-redis-info#13"
+    }
+   },
+   {
+    "id": 180,
+    "at": "2026-10-14T22:52:15.032148+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 181,
+    "at": "2026-10-14T22:52:16.032194+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "flush_cache",
+     "attempt": 2,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 182,
+    "at": "2026-10-14T22:52:16.033525+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 183,
+    "at": "2026-10-14T22:52:16.044560+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "flush_cache",
+     "params": {
+      "service": "shopcache"
+     },
+     "attempt": 2,
+     "incident_id": 11
+    }
+   },
+   {
+    "id": 184,
+    "at": "2026-10-14T22:52:16.086364+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopcache: FLUSHALL executed",
+     "output": "OK",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 185,
+    "at": "2026-10-14T22:52:16.087645+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 186,
+    "at": "2026-10-14T22:52:51.843030+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 415,
+      "fired": 600,
+      "errors": {},
+      "failed": 185,
+      "duration_s": 33.871,
+      "error_rate": 0.3083,
+      "status_counts": {
+       "200": 415,
+       "500": 185
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 11,
+       "ok": true,
+       "at_s": 0.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 1,
+       "ms": 2684,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 3004,
+       "ok": false,
+       "at_s": 22.7,
+       "error": null,
+       "status": 503
+      },
+      {
+       "n": 3,
+       "ms": 20,
+       "ok": true,
+       "at_s": 35.7,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 2,
+     "disagreed": true,
+     "naive_recovered": true,
+     "sustained_recovered": false
+    }
+   },
+   {
+    "id": 187,
+    "at": "2026-10-14T22:52:51.848096+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "fail \u2014 retry #4 starts from fresh collection (D19)",
+     "from": "VERIFYING"
+    }
+   },
+   {
+    "id": 188,
+    "at": "2026-10-14T22:52:59.339031+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:49928 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:50198 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 187, in __call__",
+      "File \"/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py\", line 165, in __call__",
+      "INFO:     172.18.0.1:50182 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 90,
+      "fired": 100,
+      "errors": {},
+      "failed": 10,
+      "duration_s": 7.418,
+      "error_rate": 0.1,
+      "status_counts": {
+       "200": 90,
+       "500": 10
+      }
+     },
+     "raw_line_count": 176,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 189,
+    "at": "2026-10-14T22:52:59.346007+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 190,
+    "at": "2026-10-14T22:53:00.535261+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.418 s): 10 failed, status counts {'200': 90, '500': 10}",
+     "summary": "shopapp is returning 500 errors for /orders requests, likely due to unhandled exceptions in the ASGI application",
+     "evidence": [
+      "INFO:     172.18.0.1:49928 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:50198 - \"GET /orders HTTP/1.1\" 500 Internal Server Error",
+      "ERROR:    Exception in ASGI application",
+      "INFO:     172.18.0.1:50182 - \"GET /orders HTTP/1.1\" 500 Internal Server Error"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 1161,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 191,
+    "at": "2026-10-14T22:53:00.538093+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 192,
+    "at": "2026-10-14T22:53:00.944870+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 308,
+     "top_rrf_score": 0.031754,
+     "top_runbook_id": "rb-redis-info#13",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 193,
+    "at": "2026-10-14T22:53:00.948145+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 194,
+    "at": "2026-10-14T22:53:02.290431+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "kill_blocking_queries",
+     "params": {
+      "service": "shopdb"
+     },
+     "provider": "groq",
+     "reasoning": "The 500 errors likely stem from unhandled exceptions triggered by DB contention. Prior app\u2011level fixes (restart, cache clear) failed, so terminating any blocking queries on the database may release locks and allow the ASGI handler to process /orders successfully.",
+     "latency_ms": 1310,
+     "runbook_id": "rb-redis-info#13"
+    }
+   },
+   {
+    "id": 195,
+    "at": "2026-10-14T22:53:02.295525+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 197,
+    "at": "2026-10-14T22:56:52.616160+00:00",
+    "kind": "escalate",
+    "payload": {
+     "via": "operator",
+     "detail": "(no reason given)",
+     "reason": "human_rejected"
+    }
+   },
+   {
+    "id": 198,
+    "at": "2026-10-14T22:56:52.618257+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "human_rejected",
+     "from": "AWAITING_APPROVAL"
+    }
+   }
+  ],
+  "12": [
+   {
+    "id": 199,
+    "at": "2026-10-14T22:57:18.946952+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "Idle pe /health 200. Load pe 'FATAL: sorry, too many clients already' \u2192 503.",
+     "fault_class": "F4"
+    }
+   },
+   {
+    "id": 200,
+    "at": "2026-10-14T22:57:19.613213+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 201,
+    "at": "2026-10-14T22:57:26.820231+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "ERROR:    Exception in ASGI application"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 85,
+      "fired": 100,
+      "errors": {},
+      "failed": 15,
+      "duration_s": 7.153,
+      "error_rate": 0.15,
+      "status_counts": {
+       "200": 85,
+       "500": 15
+      }
+     },
+     "raw_line_count": 400,
+     "container_state": "running",
+     "kept_line_count": 1,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 202,
+    "at": "2026-10-14T22:57:26.829235+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 203,
+    "at": "2026-10-14T22:57:27.966164+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.153 s): 15 failed, status counts {'200': 85, '500': 15}",
+     "summary": "shopapp is returning 500 errors due to unhandled exceptions in the ASGI application",
+     "evidence": [
+      "Health endpoint: HTTP 200; under load (100 requests in 7.153 s): 15 failed, status counts {'200': 85, '500': 15}",
+      "ERROR:    Exception in ASGI application"
+     ],
+     "provider": "groq",
+     "confidence": 0.92,
+     "latency_ms": 1102,
+     "suspected_service": "shopapp"
+    }
+   },
+   {
+    "id": 204,
+    "at": "2026-10-14T22:57:27.968821+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 205,
+    "at": "2026-10-14T22:57:28.918207+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 236,
+     "top_rrf_score": 0.031498,
+     "top_runbook_id": "rb-redis-flushall#11",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 206,
+    "at": "2026-10-14T22:57:28.926808+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 207,
+    "at": "2026-10-14T22:57:30.449946+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "restart_service",
+     "params": {
+      "service": "shopapp"
+     },
+     "provider": "groq",
+     "reasoning": "The diagnosis shows shopapp returning 500 errors due to unhandled exceptions in the ASGI app. A clean restart will reload the application code, clear in\u2011memory state, and often resolves transient exception conditions without data loss. No prior attempts have been made, so restarting is the first remediation step.",
+     "latency_ms": 1094,
+     "runbook_id": "rb-redis-flushall#11"
+    }
+   },
+   {
+    "id": 208,
+    "at": "2026-10-14T22:57:30.456351+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 209,
+    "at": "2026-10-14T22:57:59.620709+00:00",
+    "kind": "escalate",
+    "payload": {
+     "via": "operator",
+     "detail": "(no reason given)",
+     "reason": "human_rejected"
+    }
+   },
+   {
+    "id": 210,
+    "at": "2026-10-14T22:57:59.623342+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "ESCALATED",
+     "why": "human_rejected",
+     "from": "AWAITING_APPROVAL"
+    }
+   }
+  ],
+  "13": [
+   {
+    "id": 211,
+    "at": "2026-10-14T22:58:26.040298+00:00",
+    "kind": "state_change",
+    "payload": {
+     "by": "chaos.inject",
+     "to": "DETECTED",
+     "from": null,
+     "note": "Idle pe /health 200. Load pe 'FATAL: sorry, too many clients already' \u2192 503.",
+     "fault_class": "F4"
+    }
+   },
+   {
+    "id": 212,
+    "at": "2026-10-14T22:58:26.542430+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "COLLECTING",
+     "why": "worker picked up job",
+     "from": "DETECTED"
+    }
+   },
+   {
+    "id": 213,
+    "at": "2026-10-14T22:58:33.811918+00:00",
+    "kind": "logs",
+    "payload": {
+     "lines": [
+      "2026-10-14 22:57:19,785 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:57:20,718 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:57:22,585 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:57:26,297 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:57:33,719 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:57:48,542 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:58:26,685 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:58:27,620 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:58:29,480 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:58:33,193 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "ERROR:    Exception in ASGI application",
+      "psycopg_pool.PoolTimeout: couldn't get a connection after 3.00 sec"
+     ],
+     "service": "shopapp",
+     "exit_code": 0,
+     "load_probe": {
+      "ok": 85,
+      "fired": 100,
+      "errors": {},
+      "failed": 15,
+      "duration_s": 7.186,
+      "error_rate": 0.15,
+      "status_counts": {
+       "200": 85,
+       "500": 15
+      }
+     },
+     "raw_line_count": 2000,
+     "container_state": "running",
+     "kept_line_count": 12,
+     "injection_suspected": false
+    }
+   },
+   {
+    "id": 214,
+    "at": "2026-10-14T22:58:33.819015+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "DIAGNOSING",
+     "why": "logs collected",
+     "from": "COLLECTING"
+    }
+   },
+   {
+    "id": 215,
+    "at": "2026-10-14T22:58:35.114869+00:00",
+    "kind": "diagnose",
+    "payload": {
+     "model": "openai/gpt-oss-120b",
+     "health": "HTTP 200; under load (100 requests in 7.186 s): 15 failed, status counts {'200': 85, '500': 15}",
+     "summary": "shopapp is returning 500 errors because its DB connection pool cannot obtain connections; PostgreSQL reports \"too many clients\"",
+     "evidence": [
+      "2026-10-14 22:57:19,785 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "2026-10-14 22:58:33,193 WARNING psycopg.pool: error connecting in 'pool-1': connection failed: connection to server at \"172.18.0.4\", port 5432 failed: FATAL:  sorry, too many clients already",
+      "psycopg_pool.PoolTimeout: couldn't get a connection after 3.00 sec"
+     ],
+     "provider": "groq",
+     "confidence": 0.95,
+     "latency_ms": 1245,
+     "suspected_service": "shopdb"
+    }
+   },
+   {
+    "id": 216,
+    "at": "2026-10-14T22:58:35.117893+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RETRIEVING",
+     "why": "diagnosis ready",
+     "from": "DIAGNOSING"
+    }
+   },
+   {
+    "id": 217,
+    "at": "2026-10-14T22:58:36.062544+00:00",
+    "kind": "retrieve",
+    "payload": {
+     "kept": 3,
+     "query_chars": 576,
+     "top_rrf_score": 0.031778,
+     "top_runbook_id": "rb-postgres-max-connections#2",
+     "vector_candidates": 10,
+     "keyword_candidates": 10
+    }
+   },
+   {
+    "id": 218,
+    "at": "2026-10-14T22:58:36.068026+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "PROPOSING",
+     "why": "top-k runbooks ready",
+     "from": "RETRIEVING"
+    }
+   },
+   {
+    "id": 219,
+    "at": "2026-10-14T22:58:37.483969+00:00",
+    "kind": "propose",
+    "payload": {
+     "action": "set_db_setting",
+     "params": {
+      "key": "max_connections",
+      "value": 200,
+      "service": "shopdb"
+     },
+     "provider": "groq",
+     "reasoning": "shopapp returns 500 errors because its DB pool cannot obtain connections; PostgreSQL logs 'too many clients'. The runbook rb-postgres-max-connections#2 explains that max_connections controls the allowed concurrent connections. Raising it (e.g., to 200) will allow more client connections and relieve the pool exhaustion.",
+     "latency_ms": 1388,
+     "runbook_id": "rb-postgres-max-connections#2"
+    }
+   },
+   {
+    "id": 220,
+    "at": "2026-10-14T22:58:37.490927+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "AWAITING_APPROVAL",
+     "why": "proposal ready",
+     "from": "PROPOSING"
+    }
+   },
+   {
+    "id": 221,
+    "at": "2026-10-14T22:58:44.125226+00:00",
+    "kind": "approval",
+    "payload": {
+     "action": "set_db_setting",
+     "attempt": 0,
+     "decision": "approved"
+    }
+   },
+   {
+    "id": 222,
+    "at": "2026-10-14T22:58:44.126683+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "EXECUTING",
+     "why": "approved by human operator",
+     "from": "AWAITING_APPROVAL"
+    }
+   },
+   {
+    "id": 223,
+    "at": "2026-10-14T22:58:44.590694+00:00",
+    "kind": "execute",
+    "payload": {
+     "phase": "about_to_run",
+     "action": "set_db_setting",
+     "params": {
+      "key": "max_connections",
+      "value": 200,
+      "service": "shopdb"
+     },
+     "attempt": 0,
+     "incident_id": 13
+    }
+   },
+   {
+    "id": 224,
+    "at": "2026-10-14T22:58:45.329628+00:00",
+    "kind": "execute",
+    "payload": {
+     "ok": true,
+     "phase": "result",
+     "detail": "shopdb: max_connections = 200 set, then restarted (drained shopapp to get a connection)",
+     "output": "ALTER SYSTEM",
+     "exit_code": 0
+    }
+   },
+   {
+    "id": 225,
+    "at": "2026-10-14T22:58:45.334227+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "VERIFYING",
+     "why": "action ran (exit=0) \u2014 the ORACLE decides next",
+     "from": "EXECUTING"
+    }
+   },
+   {
+    "id": 226,
+    "at": "2026-10-14T22:59:15.386808+00:00",
+    "kind": "verify",
+    "payload": {
+     "load": {
+      "ok": 580,
+      "fired": 600,
+      "errors": {
+       "RemoteProtocolError": 20
+      },
+      "failed": 20,
+      "duration_s": 29.885,
+      "error_rate": 0.0333,
+      "status_counts": {
+       "200": 580
+      }
+     },
+     "probes": [
+      {
+       "n": 0,
+       "ms": 1,
+       "ok": false,
+       "at_s": 0.0,
+       "error": "RemoteProtocolError",
+       "status": null
+      },
+      {
+       "n": 1,
+       "ms": 6,
+       "ok": true,
+       "at_s": 10.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 2,
+       "ms": 7,
+       "ok": true,
+       "at_s": 20.0,
+       "error": null,
+       "status": 200
+      },
+      {
+       "n": 3,
+       "ms": 7,
+       "ok": true,
+       "at_s": 30.0,
+       "error": null,
+       "status": 200
+      }
+     ],
+     "attempt": 0,
+     "disagreed": false,
+     "naive_recovered": false,
+     "sustained_recovered": true
+    }
+   },
+   {
+    "id": 227,
+    "at": "2026-10-14T22:59:15.389128+00:00",
+    "kind": "state_change",
+    "payload": {
+     "to": "RECOVERED",
+     "why": "oracle pass \u2014 sustained",
+     "from": "VERIFYING"
+    }
+   }
+  ]
+ },
+ "verdicts": {
+  "3": [
+   {
+    "attempt": 0,
+    "sustained_recovered": true,
+    "naive_recovered": false,
+    "window_s": 30,
+    "load_rps": 20
+   }
+  ],
+  "7": [
+   {
+    "attempt": 0,
+    "sustained_recovered": true,
+    "naive_recovered": false,
+    "window_s": 30,
+    "load_rps": 20
+   }
+  ],
+  "8": [
+   {
+    "attempt": 0,
+    "sustained_recovered": true,
+    "naive_recovered": false,
+    "window_s": 30,
+    "load_rps": 20
+   }
+  ],
+  "10": [
+   {
+    "attempt": 0,
+    "sustained_recovered": false,
+    "naive_recovered": true,
+    "window_s": 30,
+    "load_rps": 20
+   },
+   {
+    "attempt": 1,
+    "sustained_recovered": true,
+    "naive_recovered": false,
+    "window_s": 30,
+    "load_rps": 20
+   }
+  ],
+  "11": [
+   {
+    "attempt": 0,
+    "sustained_recovered": false,
+    "naive_recovered": false,
+    "window_s": 30,
+    "load_rps": 20
+   },
+   {
+    "attempt": 1,
+    "sustained_recovered": false,
+    "naive_recovered": true,
+    "window_s": 30,
+    "load_rps": 20
+   },
+   {
+    "attempt": 2,
+    "sustained_recovered": false,
+    "naive_recovered": true,
+    "window_s": 30,
+    "load_rps": 20
+   }
+  ],
+  "13": [
+   {
+    "attempt": 0,
+    "sustained_recovered": true,
+    "naive_recovered": false,
+    "window_s": 30,
+    "load_rps": 20
+   }
+  ]
+ },
+ "services": [
+  {
+   "service": "shopapp",
+   "state": "running",
+   "detail": "ok \u00b7 cache:ok, db:ok (5003 orders), disk:ok (write ok, 16773120 b",
+   "checks": {
+    "db": "ok (5003 orders)",
+    "cache": "ok",
+    "disk": "ok (write ok, 16773120 bytes free)"
+   }
+  },
+  {
+   "service": "shopdb",
+   "state": "running",
+   "detail": ""
+  },
+  {
+   "service": "shopcache",
+   "state": "running",
+   "detail": ""
+  },
+  {
+   "service": "oncall-db",
+   "state": "running",
+   "detail": ""
+  }
+ ],
+ "stats": {
+  "autofix": [
+   {
+    "fault_class": "F1",
+    "rag_enabled": true,
+    "n": 5,
+    "recovered": 3,
+    "rate_pct": 60.0,
+    "ci_low_pct": 23.1,
+    "ci_high_pct": 88.2,
+    "underpowered": true
+   },
+   {
+    "fault_class": "F2",
+    "rag_enabled": true,
+    "n": 1,
+    "recovered": 0,
+    "rate_pct": 0.0,
+    "ci_low_pct": 0.0,
+    "ci_high_pct": 79.3,
+    "underpowered": true
+   },
+   {
+    "fault_class": "F4",
+    "rag_enabled": true,
+    "n": 6,
+    "recovered": 2,
+    "rate_pct": 33.3,
+    "ci_low_pct": 9.7,
+    "ci_high_pct": 70.0,
+    "underpowered": true
+   }
+  ],
+  "mttr": [
+   {
+    "fault_class": "F1",
+    "n": 3,
+    "mean_s": "65.7",
+    "p50_s": "62.5",
+    "p95_s": "87.7"
+   },
+   {
+    "fault_class": "F4",
+    "n": 2,
+    "mean_s": "180.4",
+    "p50_s": "180.4",
+    "p95_s": "298.4"
+   }
+  ],
+  "escalations": [
+   {
+    "fault_class": "F1",
+    "voluntary": 0,
+    "exhausted": 0,
+    "human_rejected": 0,
+    "broker_rejected": 0,
+    "infra": 2,
+    "n": 2
+   },
+   {
+    "fault_class": "F2",
+    "voluntary": 1,
+    "exhausted": 0,
+    "human_rejected": 0,
+    "broker_rejected": 0,
+    "infra": 0,
+    "n": 1
+   },
+   {
+    "fault_class": "F4",
+    "voluntary": 2,
+    "exhausted": 0,
+    "human_rejected": 2,
+    "broker_rejected": 0,
+    "infra": 0,
+    "n": 4
+   }
+  ],
+  "rejection": [
+   {
+    "fault_class": "F1",
+    "proposals": 3,
+    "rejected": 0
+   },
+   {
+    "fault_class": "F4",
+    "proposals": 8,
+    "rejected": 2
+   }
+  ],
+  "tokens": [
+   {
+    "fault_class": "F1",
+    "n": 5,
+    "avg_tokens": "2128",
+    "max_tokens": 4962
+   },
+   {
+    "fault_class": "F2",
+    "n": 1,
+    "avg_tokens": "2072",
+    "max_tokens": 2072
+   },
+   {
+    "fault_class": "F4",
+    "n": 7,
+    "avg_tokens": "5199",
+    "max_tokens": 17339
+   }
+  ],
+  "retrieval_hits": [
+   {
+    "fault_class": "F1",
+    "n": 3,
+    "hit_at_1_pct": "0.0",
+    "hit_at_3_pct": "0.0"
+   },
+   {
+    "fault_class": "F2",
+    "n": 1,
+    "hit_at_1_pct": "0.0",
+    "hit_at_3_pct": "0.0"
+   },
+   {
+    "fault_class": "F4",
+    "n": 10,
+    "hit_at_1_pct": "20.0",
+    "hit_at_3_pct": "20.0"
+   }
+  ],
+  "ablation_delta": [
+   {
+    "fault_class": "F1",
+    "with_rag_pct": "60.0",
+    "n_with_rag": 5,
+    "no_rag_pct": null,
+    "n_no_rag": 0,
+    "delta_pp": null
+   },
+   {
+    "fault_class": "F2",
+    "with_rag_pct": "0.0",
+    "n_with_rag": 1,
+    "no_rag_pct": null,
+    "n_no_rag": 0,
+    "delta_pp": null
+   },
+   {
+    "fault_class": "F4",
+    "with_rag_pct": "33.3",
+    "n_with_rag": 6,
+    "no_rag_pct": null,
+    "n_no_rag": 0,
+    "delta_pp": null
+   }
+  ],
+  "disagreements": [
+   {
+    "fault_class": "F1",
+    "verdicts": 3,
+    "disagreements": 0,
+    "sustained_pass": 3,
+    "naive_pass": 0
+   },
+   {
+    "fault_class": "F4",
+    "verdicts": 6,
+    "disagreements": 3,
+    "sustained_pass": 2,
+    "naive_pass": 3
+   }
+  ]
+ },
+ "annotations": {
+  "10": "Attempt 2's RECOVERED verdict is not valid: a test run on the same machine reset the fault mid-incident. Attempt 1 stands: the naive single probe passed while the sustained 30 s check under load failed. Incident #13 is the clean F4 run."
+ }
+}

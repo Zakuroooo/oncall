@@ -5,6 +5,7 @@ import { Panel, PanelHead, SourceFlag, Badge, btnStyles, fmtDuration, fmtTime, S
 import { Stepper } from "@/components/Stepper";
 import { Timeline } from "@/components/Timeline";
 import { Verdicts } from "@/components/Verdicts";
+import { annotationFor } from "@/lib/replay";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +38,11 @@ export default async function IncidentDetail({
   return (
     <div className="mx-auto max-w-6xl px-6 py-7">
       <Link href="/dashboard/incidents" className={`${btnStyles.ghost} mb-4`}>← All incidents</Link>
+      {annotationFor(incidentId) && (
+        <div className="mb-4 rounded-lg border border-signal-amber/30 bg-signal-amber/8 px-3 py-2 text-[12.5px] text-mist-300">
+          <strong className="text-signal-amber">Note on this incident.</strong> {annotationFor(incidentId)}
+        </div>
+      )}
 
       <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
         <div>

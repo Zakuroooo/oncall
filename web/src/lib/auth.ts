@@ -40,6 +40,7 @@ import {
 } from "node:crypto";
 import { cookies } from "next/headers";
 import { query } from "@/lib/db";
+import { REPLAY } from "@/lib/replay";
 
 /**
  * Promise wrapper around `crypto.scrypt`.
@@ -178,6 +179,9 @@ export async function createSession(userId: number, userAgent: string | null): P
 
 /** Resolve the current user, or null. Safe to call on every request. */
 export async function getSessionUser(): Promise<SessionUser | null> {
+  // Public replay: no accounts exist and nothing can be changed, so every
+  // visitor is the same read-only guest (see lib/replay.ts).
+  if (REPLAY) return { id: 0, email: "read-only replay", displayName: "Guest", role: "viewer" };
   const jar = await cookies();
   const token = jar.get(SESSION_COOKIE)?.value;
   if (!token) return null;
