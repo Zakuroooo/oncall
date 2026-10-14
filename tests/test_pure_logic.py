@@ -153,19 +153,44 @@ def test_filter_keeps_only_level_tokens() -> None:
     assert total == 5
 
 
-def test_filter_overcaptures_prose_error_in_head_by_design() -> None:
-    # collect.py ka documented trade: head (80 chars) mein 'error' PROSE mein
-    # bhi ho toh line pakdi jaati hai — over-capture sasta, signal-miss mehnga.
+def test_filter_ignores_prose_errors_and_traceback_frames() -> None:
+    # Reversed 2026-10-15: over-capture was not cheap — traceback frames whose
+    # path contains `errors.py` filled every slot and hid the real cause.
     from oncall.agent.collect import filter_lines
 
-    lines, _total = filter_lines("2026-08-24 INFO 0 errors seen today")
-    assert lines == ("2026-08-24 INFO 0 errors seen today",)
+    lines, _total = filter_lines(
+        "2026-08-24 INFO 0 errors seen today\n"
+        'File "/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py", line 165, in __call__'
+    )
+    assert lines == ()
+
+
+def test_filter_keeps_late_fatal_and_exception_summary_and_latest_lines() -> None:
+    from oncall.agent.collect import MAX_LINES, filter_lines
+
+    fatal = ("2026-10-14 22:55:05,021 WARNING psycopg.pool: error connecting in 'pool-1': connection to "
+             'server at "172.18.0.4", port 5432 failed: FATAL:  sorry, too many clients already')
+    raw = "\n".join(
+        [f"ERROR old {i}" for i in range(MAX_LINES)]
+        + ['File "/x/errors.py", line 1, in f', "psycopg.OperationalError: too many clients", fatal]
+    )
+    lines, _total = filter_lines(raw)
+    assert len(lines) == MAX_LINES
+    assert lines[-1] == fatal and "psycopg.OperationalError: too many clients" in lines
+    assert "ERROR old 0" not in lines  # oldest dropped, newest kept
+
+
+def test_filter_keeps_non_error_named_exception_summaries() -> None:
+    from oncall.agent.collect import filter_lines
+
+    lines, _ = filter_lines("psycopg_pool.PoolTimeout: couldn't get a connection after 3.00 sec\nINFO: ok")
+    assert lines == ("psycopg_pool.PoolTimeout: couldn't get a connection after 3.00 sec",)
 
 
 def test_filter_caps_line_length_and_count() -> None:
     from oncall.agent.collect import MAX_LINES, MAX_LINE_CHARS, filter_lines
 
-    raw = "\n".join(f"ERROR {'x' * 500}" for _ in range(MAX_LINES + 5))
+    raw = "\n".join(f"ERROR {i} {'x' * 500}" for i in range(MAX_LINES + 5))  # distinct: repeats are deduplicated
     lines, _total = filter_lines(raw)
     assert len(lines) == MAX_LINES
     assert all(len(x) <= MAX_LINE_CHARS for x in lines)
@@ -206,7 +231,8 @@ _CHECKS: tuple = (
     test_extract_json_invalid_raises_parse_error,
     test_extract_json_non_object_rejected,
     test_filter_keeps_only_level_tokens,
-    test_filter_overcaptures_prose_error_in_head_by_design,
+    test_filter_ignores_prose_errors_and_traceback_frames,
+    test_filter_keeps_late_fatal_and_exception_summary_and_latest_lines,
     test_filter_caps_line_length_and_count,
     test_injection_heuristic_flags_known_patterns,
     test_propose_menu_covers_all_nine_and_matches_allowlist,
@@ -225,3 +251,18 @@ if __name__ == "__main__":
     if _failed:
         raise SystemExit(f"{_failed}/{len(_CHECKS)} check fail hue")
     print(f"\nsab {len(_CHECKS)} check paas")
+
+
+# ── Pre-diagnosis load burst (added 2026-10-15) ──────────────────────────────
+
+def test_describe_load_reports_failures_under_load() -> None:
+    from oncall.agent.diagnose import describe_load
+
+    line = describe_load({"fired": 100, "failed": 40, "duration_s": 5.2, "status_counts": {"200": 60, "503": 40}})
+    assert "40 failed" in line and "503" in line
+
+
+def test_describe_load_is_silent_without_a_probe() -> None:
+    from oncall.agent.diagnose import describe_load
+
+    assert describe_load(None) == "" and describe_load({"fired": 0}) == ""

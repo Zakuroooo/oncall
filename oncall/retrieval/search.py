@@ -62,19 +62,27 @@ def dense(query_text: str, k: int = _CANDIDATES_PER_METHOD) -> list[dict[str, An
 
 
 def sparse(query_text: str, k: int = _CANDIDATES_PER_METHOD) -> list[dict[str, Any]]:
-    """`tsvector @@ plainto_tsquery` — exact tokens ka raja.
+    """Postgres full-text search over the runbooks, OR-ed across query terms.
 
-    `plainto_tsquery` user text ko operators-free query banata hai (AND of
-    stems) — raw `to_tsquery` user input pe syntax error deta.
+    🔴 Why OR and not `plainto_tsquery` as-is: `plainto_tsquery` ANDs every stem.
+       The query here is a whole diagnosis (2-3 sentences + evidence), so AND
+       demanded that one runbook chunk contain all ~30 stems — no chunk ever did.
+       Every incident up to 2026-10-15 logged `keyword_candidates: 0`, which made
+       "hybrid" retrieval vector-only in practice. We still let `plainto_tsquery`
+       parse and stem the text (it never raises on user input), then swap its
+       `&` for `|`, and let `ts_rank` (normalisation 1 = divide by log(doc
+       length)) order chunks by how many query terms they share.
     """
     cols = ", ".join(RUNBOOK_COLUMNS)
     sql = (
-        f"SELECT {cols}, ts_rank(tsv, plainto_tsquery('english', %s)) AS tsr "
-        "FROM runbooks WHERE tsv @@ plainto_tsquery('english', %s) "
+        f"SELECT {cols}, ts_rank(tsv, q, 1) AS tsr "
+        "FROM runbooks, "
+        "to_tsquery('english', replace(plainto_tsquery('english', %s)::text, ' & ', ' | ')) AS q "
+        "WHERE q::text <> '' AND tsv @@ q "
         f"ORDER BY tsr DESC LIMIT {int(k)}"
     )
     with get_conn() as conn, conn.cursor() as cur:
-        cur.execute(sql, (query_text, query_text))
+        cur.execute(sql, (query_text,))
         rows = cur.fetchall()
     return [dict(r) for r in rows]
 

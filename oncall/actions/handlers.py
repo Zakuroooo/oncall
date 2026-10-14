@@ -296,6 +296,11 @@ def kill_blocking_queries(*, service: str) -> ActionResult:
 # ═════════════════════════════════════════════════════════════════════════════
 
 
+#: Containers that hold connections to each database. Used only when a setting
+#: cannot be applied because those clients have taken every slot.
+DB_CLIENTS: dict[str, tuple[str, ...]] = {"shopdb": ("shopapp",)}
+
+
 def set_db_setting(*, service: str, key: str, value: int) -> ActionResult:
     """`ALTER SYSTEM SET <key> = <value>`, phir container restart.
 
@@ -322,11 +327,28 @@ def set_db_setting(*, service: str, key: str, value: int) -> ActionResult:
        sabse aasaan jhoothi jeet hai.
     """
     ivalue = int(value)  # (b) — bind param nahi mil raha, toh type se guard
-    code, out = _psql(service, f"ALTER SYSTEM SET {key} = {ivalue};")
-    if code != 0:
-        return ActionResult(False, f"ALTER SYSTEM fail: {out}", code, out)
-    _get(service).restart(timeout=10)
-    return ActionResult(True, f"{service}: {key} = {ivalue} set, then restarted", 0, out)
+    sql = f"ALTER SYSTEM SET {key} = {ivalue};"
+    code, out = _psql(service, sql)
+    drained: list[str] = []
+    if code != 0 and "too many clients" in out:
+        # 🔴 The fix for pool exhaustion needs a connection of its own, and the
+        #    exhausted pool has none to give (seen live on incident #10,
+        #    2026-10-15). Briefly stop the database's own clients so their slots
+        #    free up, apply the setting, then bring them back after the restart.
+        #    Same order as chaos `_heal_f4`, which already knew this.
+        drained = list(DB_CLIENTS.get(service, ()))
+        for client in drained:
+            _get(client).stop(timeout=5)
+        code, out = _psql(service, sql)
+    try:
+        if code != 0:
+            return ActionResult(False, f"ALTER SYSTEM fail: {out}", code, out)
+        _get(service).restart(timeout=10)
+    finally:
+        for client in drained:
+            _get(client).start()
+    note = f" (drained {', '.join(drained)} to get a connection)" if drained else ""
+    return ActionResult(True, f"{service}: {key} = {ivalue} set, then restarted{note}", 0, out)
 
 
 # ═════════════════════════════════════════════════════════════════════════════

@@ -30,6 +30,8 @@ jaata. Do bachaav, dono yahin se shuru hote hain:
 
 from __future__ import annotations
 
+import re
+
 from dataclasses import dataclass
 
 # 🔒 Container-name map ka EK maalik `handlers._CONTAINERS` hai. Doosri copy
@@ -40,7 +42,7 @@ from oncall.actions.handlers import _CONTAINERS
 
 #: Kitni aakhri lines pull karni hain. 400 = shopapp ke ~10 min ke traffic ke
 #: barabar. Zyada = bekaar bytes, kam = error miss ho sakta hai.
-TAIL_LINES = 400
+TAIL_LINES = 2000  # was 400: 15 tracebacks under load are ~900 lines and pushed the root cause out (2026-10-15). Output stays capped at MAX_LINES.
 
 #: Filtered output ki hard cap. `TOKEN_BUDGET.md` §2 ka math isi number pe
 #: khada hai (12 × ~75 tokens ≈ 900).
@@ -53,6 +55,9 @@ MAX_LINE_CHARS = 300
 #: levels conventionally uppercase hote hain, aur lowercase "error" prose
 #: messages mein bahut aam hai ("0 errors") — wo noise hoti, signal nahi.
 _LEVEL_TOKENS = ("ERROR", "FATAL", "CRITICAL")
+_LEVEL_RE = re.compile(r"\b(?:" + "|".join(_LEVEL_TOKENS) + r")\b")
+#: `SomeError: message` / `pkg.SomeException: message` — the last line of a traceback.
+_EXC_RE = re.compile(r"^(?:[a-z_]\w*\.)+[A-Z]\w*: |^[A-Z][a-z]\w*(?:Error|Exception): ")
 
 #: Injection heuristics — chhoti jaan-boojh kar. Poora nahi ho sakta; ye
 #: tripwire hai, firewall nahi. Asli bachaav allowlist hai (D6).
@@ -95,33 +100,37 @@ class CollectedLogs:
 def filter_lines(raw: str) -> tuple[tuple[str, ...], int]:
     """Raw log text → (kept lines, total lines read). Pure function — testable.
 
-    🔴 Level-token check line ke SHURUAAT ke paas hona chahiye (pehle 80
-       chars), poore line mein nahi. Wajah: ek 400-char access-log line mein
-       kahin door "error" likha ho toh wo signal nahi, coincidence hai.
+    Kept: lines with an uppercase ERROR / FATAL / CRITICAL *word* anywhere, and
+    Python exception summary lines (`psycopg.OperationalError: ...`).
+    Dropped: traceback frames (`File "..."`) and exact repeats.
+    Returned: the MOST RECENT `MAX_LINES` matches, oldest first.
 
-    ⚠️ Over-capture jaan-boojh kar hai: pehle 80 chars mein "error" PROSE mein
-       bhi aa gaya (jaise "0 errors seen") toh line pakdi jaayegi. Wo thodi
-       extra tokens hai — sasti. Ulta (signal chhoot gaya) diagnosis tod deta.
-       Under-match se over-match hamesha behtar jab lines chhoti capped hon.
+    🔴 Changed 2026-10-15 after F4 incidents #10/#11. The old rule ("token in the
+       first 80 chars, keep the first 12") failed twice over: every traceback
+       frame matched because its path contains `errors.py`, and the root cause
+       `... WARNING psycopg.pool: ... FATAL: sorry, too many clients already`
+       has FATAL at char ~170, so it was never kept. The model then saw twelve
+       stack frames and diagnosed "unhandled exceptions in the ASGI app".
     """
-    kept: list[str] = []
+    matches: list[str] = []
     total = 0
     for raw_line in raw.splitlines():
         line = raw_line.strip().replace("\r", "")
         if not line:
             continue
         total += 1
-        head = line[:80].upper()
-        if not any(tok in head for tok in _LEVEL_TOKENS):
+        if line.startswith('File "'):
+            continue
+        if not (_LEVEL_RE.search(line) or _EXC_RE.match(line)):
             continue
         if len(line) > MAX_LINE_CHARS:
             # Cut hone ka pata hona zaruri hai — warna reader sochta hai poori
             # line yahi thi.
             line = line[: MAX_LINE_CHARS - 3] + "..."
-        kept.append(line)
-        if len(kept) >= MAX_LINES:
-            break
-    return tuple(kept), total
+        if line in matches:
+            matches.remove(line)  # keep only the latest occurrence
+        matches.append(line)
+    return tuple(matches[-MAX_LINES:]), total
 
 
 def scan_injection(lines: tuple[str, ...]) -> bool:

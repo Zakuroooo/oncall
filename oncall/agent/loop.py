@@ -37,7 +37,10 @@ from oncall.agent import diagnose as diagnose_mod
 from oncall.agent import propose as propose_mod
 from oncall.agent.states import State, assert_transition, is_terminal
 from oncall.actions import broker
-from oncall.config import MAX_ATTEMPTS, settings
+from oncall.config import MAX_ATTEMPTS, ORACLE_LOAD_RPS, settings
+
+#: Length of the pre-diagnosis load burst (see `_step_collecting`).
+LOAD_PROBE_SECONDS = 5
 from oncall.db.queries import (
     advance_state,
     bump_attempt,
@@ -53,6 +56,7 @@ from oncall.db.queries import (
 )
 from oncall.llm import router as router_module
 from oncall.oracle.health import is_recovered
+from oncall.oracle.load import generate_load
 from oncall.retrieval.embed import EmbedUnavailableError
 from oncall.retrieval.search import docs_for_prompt, hybrid
 
@@ -166,8 +170,16 @@ def _step_detected(incident_id: int, _incident: dict[str, Any]) -> StepOutcome:
 
 def _step_collecting(incident_id: int, incident: dict[str, Any]) -> StepOutcome:
     service = str(incident["service"])
+    # 🔴 Load BEFORE reading logs. Some faults only exist under traffic: F4 (pool
+    #    exhaustion) answers an idle /health with 200 and logs nothing. Without
+    #    this burst the agent diagnosed F4 as "healthy" and escalated (incidents
+    #    #6 and #9). Same load generator and rate as the oracle, but 5 s, so the
+    #    evidence matches what the verdict will later measure.
+    load = asyncio.run(
+        generate_load(f"{settings.shopapp_url}/orders", rps=ORACLE_LOAD_RPS, seconds=LOAD_PROBE_SECONDS)
+    )
     collected = gather(service)
-    record_event(incident_id, "logs", collected.to_payload())
+    record_event(incident_id, "logs", {**collected.to_payload(), "load_probe": load.to_payload()})
     _move(incident_id, State.COLLECTING, State.DIAGNOSING, "logs collected")
     return StepOutcome.CONTINUED
 
@@ -184,6 +196,7 @@ def _step_diagnosing(incident_id: int, incident: dict[str, Any]) -> StepOutcome:
             service=str(incident["service"]),
             health_url=settings.shopapp_health_url,
             collected=_collected_from(logs_payload),
+            load_probe=(logs_payload or {}).get("load_probe"),
         )
     except router_module.ParseError as exc:
         return _escalate(incident_id, State.DIAGNOSING, "parse_failed", str(exc))

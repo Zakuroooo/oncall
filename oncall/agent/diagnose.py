@@ -71,6 +71,22 @@ def _current_health(health_url: str) -> str:
         return f"no answer ({type(exc).__name__})"
 
 
+def describe_load(load_probe: dict | None) -> str:
+    """One line summarising the pre-diagnosis load burst, appended to the health line.
+
+    An idle 200 next to "40 of 100 requests failed under load" is the whole F4
+    signature; without the second half the model sees a healthy service.
+    """
+    if not load_probe or not load_probe.get("fired"):
+        return ""
+    line = f"; under load ({load_probe['fired']} requests in {load_probe.get('duration_s', '?')} s): {load_probe.get('failed', 0)} failed"
+    if load_probe.get("status_counts"):
+        line += f", status counts {load_probe['status_counts']}"
+    if load_probe.get("errors"):
+        line += f", client errors {load_probe['errors']}"
+    return line
+
+
 def build_user_prompt(
     service: str,
     health_line: str,
@@ -101,6 +117,7 @@ def run(
     service: str,
     health_url: str,
     collected: CollectedLogs,
+    load_probe: dict | None = None,
 ) -> Diagnosis:
     """Ek diagnosis. Safal ho toh `events` mein 'diagnose' event khud likhta hai.
 
@@ -110,7 +127,7 @@ def run(
         router.LLMUnavailableError: provider hi nahi mila (caller:
             ESCALATED llm_unavailable).
     """
-    health_line = _current_health(health_url)
+    health_line = _current_health(health_url) + describe_load(load_probe)
     user_prompt = build_user_prompt(service, health_line, collected)
 
     result = router.call(
