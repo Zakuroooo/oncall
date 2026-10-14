@@ -9,6 +9,9 @@ check three times across a 30-second window while generating load to decide whet
 
 The language model proposes. It never decides.
 
+**Live demo (read-only replay of real recorded incidents):** https://oncall-replay.vercel.app —
+the control plane itself is never put online, for the reasons below.
+
 ---
 
 ## ⚠️ Security notice — read this first
@@ -38,7 +41,7 @@ variable. That is not an oversight — a config option that can expose this tool
 
 ## Status
 
-**All phases implemented and the central claim is now measured (2026-08-24):** on a live F4 injection with only a restart applied, the naive check reports success and the sustained oracle correctly reports failure — both directions verified by `tests/test_oracle.py` against the running stack. 152 tests pass; the security invariants are grep-enforced via
+**All phases implemented and the central claim is now measured (2026-08-24):** on a live F4 injection with only a restart applied, the naive check reports success and the sustained oracle correctly reports failure — both directions verified by `tests/test_oracle.py` against the running stack. 167 tests pass (2026-10-15, after four bugs found on live F4 runs were fixed — see commit `a156167`); the security invariants are grep-enforced via
 `make verify`. The end-to-end path was smoke-tested against the live Docker stack: fault inject → log
 collect → state machine → approval gate → broker execution → oracle verdict. The two LLM call sites need a
 valid `GROQ_API_KEY` in `.env`; retrieval additionally needs the local embed service (~2.5 GB of ingest deps).
