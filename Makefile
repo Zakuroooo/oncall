@@ -298,9 +298,9 @@ lint: ## 🔒 Security invariants — CLAUDE.md §3 ke grep-checkable rules
 	@echo "✅ clean"
 	@echo "── 6. docs/ git mein nahi (R15) ──"
 	@if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then \
-		if git ls-files --error-unmatch docs/ >/dev/null 2>&1; then \
+		if git ls-files docs/ | grep -qv '^docs/images/'; then \
 			echo "❌ docs/ TRACKED hai — R15 fired" && exit 1; \
-		else echo "✅ docs/ untracked"; fi; \
+		else echo "✅ docs/ untracked (docs/images/ screenshots allowed)"; fi; \
 	else echo "⚠️  git repo nahi hai — pehle git init chalao"; fi
 
 # ─────────────────────────────────────────────────────────────────────────────

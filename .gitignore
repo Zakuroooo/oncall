@@ -4,8 +4,10 @@
 # learning material. It contains reasoning, Hinglish explanations,
 # and a question bank. It is NOT project documentation for the
 # public repo. Public-facing docs live in README.md only.
+# Only docs/images/ (README screenshots) is tracked.
 # ─────────────────────────────────────────────────────────────
-docs/
+docs/*
+!docs/images/
 AGENTS.md
 CLAUDE.md
 .claude/
